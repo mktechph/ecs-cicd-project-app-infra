@@ -58,7 +58,7 @@ module "app_subnet1" {
   version = "0.0.2"
 
   subnet_az = "ap-southeast-1a"
-  subnet_cidr = "10.100.100.0/24"
+  subnet_cidr = "10.0.100.0/24"
   subnet_vpc = module.vpc.output_vpc_id
   subnet_tags = {
     Name = "${local.projectname}-${local.environment}-app-subnet1"
@@ -70,7 +70,7 @@ module "app_subnet2" {
   version = "0.0.2"
 
   subnet_az = "ap-southeast-1b"
-  subnet_cidr = "10.100.200.0/24"
+  subnet_cidr = "10.0.200.0/24"
   subnet_vpc = module.vpc.output_vpc_id
   subnet_tags = {
     Name = "${local.projectname}-${local.environment}-app-subnet2"
