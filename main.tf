@@ -95,6 +95,7 @@ module "rtb-app" {
   version = "0.0.3"
 
   rtb_vpc = module.vpc.output_vpc_id
+  route_destination_cidr_block = "0.0.0.0/0"
   rtb_tags = {
     Name = "${local.projectname}-${local.environment}-app-rtb"
   }
