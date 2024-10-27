@@ -35,7 +35,7 @@ module "nlb_subnet1" {
 
   subnet_az = "ap-southeast-1a"
   subnet_cidr = "10.0.10.0/24"
-  subnet_vpc = module.vpc-module-marvs.output_vpc_id
+  subnet_vpc = module.vpc.output_vpc_id
   subnet_tags = {
     Name = "${local.projectname}-${local.environment}-nlb-subnet1"
   }
@@ -47,7 +47,7 @@ module "nlb_subnet2" {
 
   subnet_az = "ap-southeast-1b"
   subnet_cidr = "10.0.20.0/24"
-  subnet_vpc = module.vpc-module-marvs.output_vpc_id
+  subnet_vpc = module.vpc.output_vpc_id
   subnet_tags = {
     Name = "${local.projectname}-${local.environment}-nlb-subnet2"
   }
@@ -59,7 +59,7 @@ module "app_subnet1" {
 
   subnet_az = "ap-southeast-1a"
   subnet_cidr = "10.100.100.0/24"
-  subnet_vpc = module.vpc-module-marvs.output_vpc_id
+  subnet_vpc = module.vpc.output_vpc_id
   subnet_tags = {
     Name = "${local.projectname}-${local.environment}-app-subnet1"
   }
@@ -71,7 +71,7 @@ module "app_subnet2" {
 
   subnet_az = "ap-southeast-1b"
   subnet_cidr = "10.100.200.0/24"
-  subnet_vpc = module.vpc-module-marvs.output_vpc_id
+  subnet_vpc = module.vpc.output_vpc_id
   subnet_tags = {
     Name = "${local.projectname}-${local.environment}-app-subnet2"
   }
