@@ -21,7 +21,7 @@ module "vpc" {
   source  = "app.terraform.io/marvsmpb/vpc-module-marvs/aws"
   version = "1.0.3"
 
-  vpc_cidr_block = "10.100.0.0/16"
+  vpc_cidr_block = "10.0.0.0/16"
   vpc_tags = {
     Name = "${local.projectname}-${local.environment}-vpc"
     environment = "${local.environment}"
@@ -34,7 +34,7 @@ module "nlb_subnet1" {
   version = "0.0.2"
 
   subnet_az = "ap-southeast-1a"
-  subnet_cidr = "10.100.10.0/24"
+  subnet_cidr = "10.0.10.0/24"
   subnet_vpc = module.vpc-module-marvs.output_vpc_id
   subnet_tags = {
     Name = "${local.projectname}-${local.environment}-nlb-subnet1"
@@ -46,7 +46,7 @@ module "nlb_subnet2" {
   version = "0.0.2"
 
   subnet_az = "ap-southeast-1b"
-  subnet_cidr = "10.100.20.0/24"
+  subnet_cidr = "10.0.20.0/24"
   subnet_vpc = module.vpc-module-marvs.output_vpc_id
   subnet_tags = {
     Name = "${local.projectname}-${local.environment}-nlb-subnet2"
