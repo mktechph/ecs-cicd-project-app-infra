@@ -101,8 +101,8 @@ module "module_rtb_app" {
 
   rtb_vpc = module.module_app_vpc.output_vpc_id
 
-  route_peering_bool           = true
-  route_peering                = module.module_app_vpc_peering.output_peering_id
+  route_peering_bool                       = true
+  route_peering                            = module.module_app_vpc_peering.output_peering_id
   route_vpc_peering_destination_cidr_block = "0.0.0.0/0"
 
 
@@ -167,17 +167,17 @@ module "module_network_subnet_pub2" {
   }
 }
 
-module "module_network_vpc_peering" {
-  source  = "app.terraform.io/marvsmpb/vpc-peering-owner-marvs/aws"
-  version = "0.0.3"
+module "module_app_vpc_peering" {
+  source  = "app.terraform.io/marvsmpb/vpc-peering-accepter-marvs/aws"
+  version = "0.0.6"
 
-  vpc_id      = module.module_network_vpc.output_vpc_id
-  peer_vpc_id = module.module_app_vpc_peering.output_peering_id
-  owner_tags = {
+  peering_connection_id = module.vpc_infra_app.output_vpc_id
+  peer_tags = {
     Name        = "${local.Projectname}-${local.Environment}-network-peering"
     Environment = "${local.Environment}"
   }
 }
+
 
 module "module_network_rtb" {
   source  = "app.terraform.io/marvsmpb/rtb-marvs/aws"
@@ -185,8 +185,8 @@ module "module_network_rtb" {
 
   rtb_vpc = module.module_network_vpc.output_vpc_id
 
-  route_peering_bool           = true
-  route_peering                = module.module_app_vpc_peering.output_peering_id
+  route_peering_bool                       = true
+  route_peering                            = module.module_app_vpc_peering.output_peering_id
   route_vpc_peering_destination_cidr_block = "10.100.0.0/16"
 
   route_internet_gateway_bool                   = true
