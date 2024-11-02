@@ -187,7 +187,7 @@ module "module_network_rtb" {
 
   route_peering_bool           = true
   route_peering                = module.module_app_vpc_peering.output_peering_id
-  route_destination_cidr_block = "10.100.0.0/16"
+  route_vpc_peering_destination_cidr_block = "10.100.0.0/16"
 
   route_internet_gateway_bool                   = true
   route_internet_gateway                        = module.module_network_subnet_pub1.outputs_route_route_internet_gateway
