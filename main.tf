@@ -88,7 +88,7 @@ module "module_app_vpc_peering" {
   version = "0.0.3"
 
   vpc_id      = module.module_app_vpc.output_vpc_id
-  peer_vpc_id = module.module_network_vpc_peering.output_peering_id
+  peer_vpc_id = module.module_network_vpc_peering.output_vpc_id
   owner_tags = {
     Name        = "${local.Projectname}-${local.Environment}-app-peering"
     Environment = "${local.Environment}"
