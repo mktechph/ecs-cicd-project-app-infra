@@ -167,7 +167,7 @@ module "module_network_subnet_pub2" {
   }
 }
 
-module "module_app_vpc_peering" {
+module "module_network_vpc_peering" {
   source  = "app.terraform.io/marvsmpb/vpc-peering-accepter-marvs/aws"
   version = "0.0.6"
 
