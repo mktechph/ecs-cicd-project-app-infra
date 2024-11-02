@@ -103,7 +103,7 @@ module "module_rtb_app" {
 
   route_peering_bool           = true
   route_peering                = module.module_app_vpc_peering.output_peering_id
-  route_destination_cidr_block = "0.0.0.0/0"
+  route_vpc_peering_destination_cidr_block = "0.0.0.0/0"
 
 
 
