@@ -113,9 +113,22 @@ module "module_rtb_app" {
   }
 }
 
-
-
-
+resource "aws_route_table_association" "rtb_app_assoc_app_subnet1" {
+  subnet_id      = module.module_app_subnet1.outputs_subnet_id
+  route_table_id = module.module_rtb_app.outputs_rtb_id
+}
+resource "aws_route_table_association" "rtb_app_assoc_app_subnet2" {
+  subnet_id      = module.module_app_subnet2.outputs_subnet_id
+  route_table_id = module.module_rtb_app.outputs_rtb_id
+}
+resource "aws_route_table_association" "rtb_app_assoc_nlb_subnet1" {
+  subnet_id      = module.module_app_subnet_nlb1.outputs_subnet_id
+  route_table_id = module.module_rtb_app.outputs_rtb_id
+}
+resource "aws_route_table_association" "rtb_app_assoc_nlb_subnet2" {
+  subnet_id      = module.module_app_subnet_nlb2.outputs_subnet_id
+  route_table_id = module.module_rtb_app.outputs_rtb_id
+}
 
 
 
@@ -135,7 +148,7 @@ module "module_network_vpc" {
 }
 
 
-module "module_network_subnet_pub1" {
+module "module_network_pub_subnet1" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
   version = "0.0.14"
 
@@ -143,18 +156,18 @@ module "module_network_subnet_pub1" {
   subnet_az   = "ap-southeast-1a"
   subnet_cidr = "10.200.10.0/24"
   subnet_tags = {
-    Name        = "${local.Projectname}-${local.Environment}-network-subnet_pub1"
+    Name        = "${local.Projectname}-${local.Environment}-network-subnet-pub1"
     Environment = "${local.Environment}"
   }
 
   subnet_public_bool = true
   igw_tags = {
-    Name        = "${local.Projectname}-${local.Environment}-network-subnet_pub_igw"
+    Name        = "${local.Projectname}-${local.Environment}-network-subnet-pub-igw"
     Environment = "${local.Environment}"
   }
 }
 
-module "module_network_subnet_pub2" {
+module "module_network_pub_subnet2" {
   source  = "app.terraform.io/marvsmpb/subnet-marvs/aws"
   version = "0.0.14"
 
@@ -171,7 +184,7 @@ module "module_network_vpc_peering" {
   source  = "app.terraform.io/marvsmpb/vpc-peering-accepter-marvs/aws"
   version = "0.0.6"
 
-  peering_connection_id = module.module_app_vpc.output_vpc_id
+  peering_connection_id = module.module_app_vpc_peering.output_peering_id
   peer_tags = {
     Name        = "${local.Projectname}-${local.Environment}-network-peering"
     Environment = "${local.Environment}"
@@ -200,3 +213,12 @@ module "module_network_rtb" {
 }
 
 
+resource "aws_route_table_association" "rtb_network_assoc_public_subnet1" {
+  subnet_id      = module.module_network_pub_subnet1.outputs_subnet_id
+  route_table_id = module.module_rtb_app.outputs_rtb_id
+}
+
+resource "aws_route_table_association" "rtb_network_assoc_public_subnet2" {
+  subnet_id      = module.module_network_pub_subnet2.outputs_subnet_id
+  route_table_id = module.module_rtb_app.outputs_rtb_id
+}
