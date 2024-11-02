@@ -87,7 +87,7 @@ module "module_app_vpc_peering" {
   source  = "app.terraform.io/marvsmpb/vpc-peering-owner-marvs/aws"
   version = "0.0.3"
 
-  vpc_id      = module.vpc_infra_app.output_vpc_id
+  vpc_id      = module.module_app_vpc.output_vpc_id
   peer_vpc_id = module.module_network_vpc_peering.output_peering_id
   owner_tags = {
     Name        = "${local.Projectname}-${local.Environment}-app-peering"
@@ -171,7 +171,7 @@ module "module_network_vpc_peering" {
   source  = "app.terraform.io/marvsmpb/vpc-peering-accepter-marvs/aws"
   version = "0.0.6"
 
-  peering_connection_id = module.vpc_infra_app.output_vpc_id
+  peering_connection_id = module.module_app_vpc.output_vpc_id
   peer_tags = {
     Name        = "${local.Projectname}-${local.Environment}-network-peering"
     Environment = "${local.Environment}"
@@ -190,7 +190,7 @@ module "module_network_rtb" {
   route_vpc_peering_destination_cidr_block = "10.100.0.0/16"
 
   route_internet_gateway_bool                   = true
-  route_internet_gateway                        = module.module_network_subnet_pub1.outputs_route_route_internet_gateway
+  route_internet_gateway                        = module.module_network_subnet_pub1.outputs_internet_gateway_id
   route_internet_gateway_destination_cidr_block = "0.0.0.0/0"
 
   rtb_tags = {
