@@ -132,7 +132,7 @@ resource "aws_route_table_association" "rtb_app_assoc_nlb_subnet2" {
 
 module "module_app_ecs_ecr_subnet1_endpoint" {
   source  = "app.terraform.io/marvsmpb/vpc-endpoint-ecs-ecr-marvs/aws"
-  version = "0.0.3"
+  version = "0.0.4"
 
   vpc_id = module.module_app_vpc.output_vpc_id
 
@@ -150,7 +150,7 @@ module "module_app_ecs_ecr_subnet1_endpoint" {
 
 module "module_app_ecs_ecr_subnet2_endpoint" {
   source  = "app.terraform.io/marvsmpb/vpc-endpoint-ecs-ecr-marvs/aws"
-  version = "0.0.3"
+  version = "0.0.4"
 
   vpc_id = module.module_app_vpc.output_vpc_id
 
