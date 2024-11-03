@@ -208,6 +208,8 @@ module "module_network_vpc_peering" {
   source  = "app.terraform.io/marvsmpb/vpc-peering-accepter-marvs/aws"
   version = "0.0.6"
 
+  depends_on = [module.module_app_vpc_peering]
+
   peering_connection_id = module.module_app_vpc_peering.output_peering_id
   peer_tags = {
     Name        = "${local.Projectname}-${local.Environment}-network-peering"
