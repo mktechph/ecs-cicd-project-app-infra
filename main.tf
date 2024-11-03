@@ -83,17 +83,17 @@ module "module_app_subnet2" {
   }
 }
 
-module "module_app_vpc_peering" {
-  source  = "app.terraform.io/marvsmpb/vpc-peering-owner-marvs/aws"
-  version = "0.0.3"
-
-  vpc_id      = module.module_app_vpc.output_vpc_id
-  peer_vpc_id = module.module_network_vpc_peering.output_vpc_id
-  owner_tags = {
-    Name        = "${local.Projectname}-${local.Environment}-app-peering"
-    Environment = "${local.Environment}"
-  }
-}
+#module "module_app_vpc_peering" {
+#  source  = "app.terraform.io/marvsmpb/vpc-peering-owner-marvs/aws"
+#  version = "0.0.3"
+#
+#  vpc_id      = module.module_app_vpc.output_vpc_id
+#  peer_vpc_id = module.module_network_vpc_peering.output_vpc_id
+#  owner_tags = {
+#    Name        = "${local.Projectname}-${local.Environment}-app-peering"
+#    Environment = "${local.Environment}"
+#  }
+#}
 
 module "module_rtb_app" {
   source  = "app.terraform.io/marvsmpb/rtb-marvs/aws"
@@ -180,16 +180,16 @@ module "module_network_pub_subnet2" {
   }
 }
 
-module "module_network_vpc_peering" {
-  source  = "app.terraform.io/marvsmpb/vpc-peering-accepter-marvs/aws"
-  version = "0.0.6"
-
-  peering_connection_id = module.module_app_vpc_peering.output_peering_id
-  peer_tags = {
-    Name        = "${local.Projectname}-${local.Environment}-network-peering"
-    Environment = "${local.Environment}"
-  }
-}
+#module "module_network_vpc_peering" {
+#  source  = "app.terraform.io/marvsmpb/vpc-peering-accepter-marvs/aws"
+#  version = "0.0.6"
+#
+#  peering_connection_id = module.module_app_vpc_peering.output_peering_id
+#  peer_tags = {
+#    Name        = "${local.Projectname}-${local.Environment}-network-peering"
+#    Environment = "${local.Environment}"
+#  }
+#}
 
 
 module "module_network_rtb" {
