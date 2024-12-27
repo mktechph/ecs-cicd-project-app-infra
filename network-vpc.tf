@@ -62,7 +62,7 @@ module "module_network_tgw_subnet2" {
   version = "0.0.14"
 
   subnet_vpc  = module.module_network_vpc.output_vpc_id
-  subnet_az   = "ap-southeast-1a"
+  subnet_az   = "ap-southeast-1b"
   subnet_cidr = "10.200.200.0/24"
   subnet_tags = {
     Name        = "${local.Projectname}-${local.Environment}-network-tgw-subnet2"
