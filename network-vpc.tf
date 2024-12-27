@@ -122,22 +122,22 @@ resource "aws_route" "route_network_tgw_subnet_to_tgw" {
 
 resource "aws_route_table_association" "rtb_network_assoc_public_subnet1" {
   subnet_id      = module.module_network_pub_subnet1.outputs_subnet_id
-  route_table_id = module.module_network_rtb.outputs_rtb_id
+  route_table_id = module.module_network_rtb_pub.outputs_rtb_id
 }
 
 resource "aws_route_table_association" "rtb_network_assoc_public_subnet2" {
   subnet_id      = module.module_network_pub_subnet2.outputs_subnet_id
-  route_table_id = module.module_network_rtb.outputs_rtb_id
+  route_table_id = module.module_network_rtb_pub.outputs_rtb_id
 }
 
 resource "aws_route_table_association" "rtb_network_assoc_tgw_subnet1" {
   subnet_id      = module.module_network_tgw_subnet1.outputs_subnet_id
-  route_table_id = module.module_network_rtb.outputs_rtb_id
+  route_table_id = module.module_network_rtb_tgw.outputs_rtb_id
 }
 
 resource "aws_route_table_association" "rtb_network_assoc_tgw_subnet2" {
   subnet_id      = module.module_network_tgw_subnet2.outputs_subnet_id
-  route_table_id = module.module_network_rtb.outputs_rtb_id
+  route_table_id = module.module_network_rtb_tgw.outputs_rtb_id
 }
 
 
