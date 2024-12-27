@@ -63,8 +63,8 @@ resource "aws_ec2_transit_gateway_route_table" "tgw_rtb_app" {
   }
 }
 ## ROUTE TO NETWORK-VPC
-resource "aws_ec2_transit_gateway_route" "tgw_route_to_app" {
-  destination_cidr_block         = "0.0.0.0/16"
+resource "aws_ec2_transit_gateway_route" "tgw_route_to_network" {
+  destination_cidr_block         = "0.0.0.0/0"
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_app_vpc_tgw_subnets.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_rtb_app.id
 }
