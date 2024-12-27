@@ -72,7 +72,7 @@ module "module_network_tgw_subnet2" {
 
 
 
-module "module_network_rtb" {
+module "module_network_rtb_pub" {
   source  = "app.terraform.io/marvsmpb/rtb-marvs/aws"
   version = "0.0.6"
 
@@ -87,19 +87,37 @@ module "module_network_rtb" {
   route_internet_gateway_destination_cidr_block = "0.0.0.0/0"
 
   rtb_tags = {
-    Name        = "${local.Projectname}-${local.Environment}-network-rtb-app1"
+    Name        = "${local.Projectname}-${local.Environment}-network-rtb"
     Environment = "${local.Environment}"
   }
 }
 
 # TGW ROUTE
-resource "aws_route" "route_network_subnet_to_tgw" {
-  route_table_id         = module.module_network_rtb.outputs_rtb_id
+resource "aws_route" "route_network_pub_subnet_to_tgw" {
+  route_table_id         = module.module_network_rtb_pub.outputs_rtb_id
   destination_cidr_block = "10.100.0.0/16"
   transit_gateway_id     = aws_ec2_transit_gateway.tgw.id
 }
 
 
+module "module_network_rtb_tgw" {
+  source  = "app.terraform.io/marvsmpb/rtb-marvs/aws"
+  version = "0.0.6"
+
+  rtb_vpc = module.module_network_vpc.output_vpc_id
+
+  rtb_tags = {
+    Name        = "${local.Projectname}-${local.Environment}-tgw-rtb"
+    Environment = "${local.Environment}"
+  }
+}
+
+# TGW ROUTE
+resource "aws_route" "route_network_tgw_subnet_to_tgw" {
+  route_table_id         = module.module_network_rtb_tgw.outputs_rtb_id
+  destination_cidr_block = "10.100.0.0/16"
+  transit_gateway_id     = aws_ec2_transit_gateway.tgw.id
+}
 
 
 resource "aws_route_table_association" "rtb_network_assoc_public_subnet1" {
