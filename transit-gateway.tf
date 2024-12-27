@@ -68,3 +68,15 @@ resource "aws_ec2_transit_gateway_route" "tgw_route_to_network" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_app_vpc_tgw_subnets.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_rtb_app.id
 }
+
+## NETWORK VPC TGW ROUTE TABLE ASSOCIATION
+resource "aws_ec2_transit_gateway_route_table_association" "tgw_network_vpc_tgw_rtb_assoc" {
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_network_vpc_tgw_subnets.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_rtb_network.id
+}
+
+## APP VPC TGW ROUTE TABLE ASSOCIATION
+resource "aws_ec2_transit_gateway_route_table_association" "tgw_app_vpc_tgw_rtb_assoc" {
+  transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw_attachment_app_vpc_tgw_subnets.id
+  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw_rtb_app.id
+}
