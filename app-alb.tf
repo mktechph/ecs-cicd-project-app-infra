@@ -40,8 +40,6 @@ resource "aws_autoscaling_group" "app-fe-autoscaling" {
     version = "$Latest"
   }
 
-  target_group_arns = [aws_lb_target_group.app-alb-fe-target-group.arn]
-
   instance_maintenance_policy {
     min_healthy_percentage = 90
     max_healthy_percentage = 120
@@ -54,6 +52,17 @@ resource "aws_autoscaling_group" "app-fe-autoscaling" {
 
 }
 
+resource "aws_lb_target_group_attachment" "app-fe-attach-subnet1" {
+  target_group_arn = aws_lb_target_group.app-alb-fe-target-group.arn
+  target_id        = "10.100.100.0/24"
+  port             = 80
+}
+
+resource "aws_lb_target_group_attachment" "app-fe-attach-subnet2" {
+  target_group_arn = aws_lb_target_group.app-alb-fe-target-group.arn
+  target_id        = "10.100.200.0/24"
+  port             = 80
+}
 
 resource "aws_lb_listener" "alb-listener-fe" {
   load_balancer_arn = aws_lb.app-alb.arn
