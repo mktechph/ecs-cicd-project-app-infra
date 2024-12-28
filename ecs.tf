@@ -50,7 +50,7 @@ resource "aws_ecs_task_definition" "ecs-task" {
   family = "ecs-task"
   container_definitions = jsonencode([
     {
-      name      = "ecs-task"
+      name      = "ecs-fe"
       image     = "public.ecr.aws/nginx/nginx:stable-perl"
       cpu       = 1
       memory    = 512
