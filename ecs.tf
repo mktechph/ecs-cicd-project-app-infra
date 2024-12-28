@@ -7,6 +7,21 @@ resource "aws_ecs_cluster" "ecs-cluster-fe-oauth" {
   }
 }
 
+resource "aws_ecs_capacity_provider" "ecs-capacity-provider" {
+  name = "capacity_provider"
+
+  auto_scaling_group_provider {
+    auto_scaling_group_arn         = aws_autoscaling_group.app-fe-autoscaling.arn
+    managed_termination_protection = "ENABLED"
+
+    managed_scaling {
+      maximum_scaling_step_size = 5
+      minimum_scaling_step_size = 1
+      status                    = "ENABLED"
+      target_capacity           = 100
+    }
+  }
+}
 
 resource "aws_ecs_service" "ecs-service-fe" {
   name            = "ecs-service-fe"
@@ -33,7 +48,7 @@ resource "aws_ecs_service" "ecs-service-fe" {
 
 
   load_balancer {
-    target_group_arn = aws_appautoscaling_target.app-alb-fe-target-group.arn
+    target_group_arn = aws_alb_target_group.app-alb-fe-target-group.arn
     container_name   = "ecs-fe"
     container_port   = 80
   }

@@ -15,8 +15,29 @@ resource "aws_lb" "app-alb" {
 }
 
 
+resource "aws_alb_target_group" "app-alb-fe-target-group" {
+  target_type = "instance"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = module.module_app_vpc.output_vpc_id
 
-resource "aws_appautoscaling_target" "app-alb-fe-target-group" {
+  health_check {
+    healthy_threshold   = "2"
+    unhealthy_threshold = "2"
+    interval            = "60"
+    path                = "/"
+    timeout             = 30
+    matcher             = 200
+    protocol            = "HTTP"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+
+resource "aws_appautoscaling_target" "app-alb-fe-autoscaling-target" {
   max_capacity       = 4
   min_capacity       = 2
   resource_id        = "service/${aws_ecs_cluster.ecs-cluster-fe-oauth.name}/${aws_ecs_service.ecs-service-fe.name}"
@@ -74,6 +95,6 @@ resource "aws_lb_listener" "alb-listener-fe" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_appautoscaling_target.app-alb-fe-target-group.arn
+    target_group_arn = aws_alb_target_group.app-alb-fe-target-group.arn
   }
 }
