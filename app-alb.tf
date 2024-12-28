@@ -54,13 +54,13 @@ resource "aws_autoscaling_group" "app-fe-autoscaling" {
 
 resource "aws_lb_target_group_attachment" "app-fe-attach-subnet1" {
   target_group_arn = aws_lb_target_group.app-alb-fe-target-group.arn
-  target_id        = "10.100.100.0/24"
+  target_id        = "10.100.100.0"
   port             = 80
 }
 
 resource "aws_lb_target_group_attachment" "app-fe-attach-subnet2" {
   target_group_arn = aws_lb_target_group.app-alb-fe-target-group.arn
-  target_id        = "10.100.200.0/24"
+  target_id        = "10.100.200.0"
   port             = 80
 }
 
