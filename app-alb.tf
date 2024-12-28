@@ -16,10 +16,11 @@ resource "aws_lb" "app-alb" {
 
 
 resource "aws_lb_target_group" "app-alb-fe-target-group" {
-  name     = "ecs-alb-fe-target-group"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = module.module_app_vpc.output_vpc_id
+  name        = "ecs-alb-fe-target-group"
+  port        = 80
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = module.module_app_vpc.output_vpc_id
 }
 
 
