@@ -33,7 +33,7 @@ resource "aws_ecs_service" "ecs-service-fe" {
 
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.app-alb-fe-target-group.arn
+    target_group_arn = aws_appautoscaling_target.app-alb-fe-target-group.arn
     container_name   = "ecs-fe"
     container_port   = 80
   }

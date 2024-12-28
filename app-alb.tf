@@ -74,6 +74,6 @@ resource "aws_lb_listener" "alb-listener-fe" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.app-alb-fe-target-group.arn
+    target_group_arn = aws_appautoscaling_target.app-alb-fe-target-group.arn
   }
 }
