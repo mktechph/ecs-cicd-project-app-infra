@@ -15,12 +15,13 @@ resource "aws_lb" "app-alb" {
 }
 
 
-resource "aws_lb_target_group" "app-alb-fe-target-group" {
-  name        = "ecs-alb-fe-target-group"
-  port        = 80
-  protocol    = "HTTP"
-  target_type = "ip"
-  vpc_id      = module.module_app_vpc.output_vpc_id
+
+resource "aws_appautoscaling_target" "app-alb-fe-target-group" {
+  max_capacity       = 4
+  min_capacity       = 2
+  resource_id        = "service/${aws_ecs_cluster.ecs-cluster-fe-oauth.name}/${aws_ecs_service.ecs-service-fe.name}"
+  scalable_dimension = "ecs:service:DesiredCount"
+  service_namespace  = "ecs"
 }
 
 
@@ -52,17 +53,17 @@ resource "aws_autoscaling_group" "app-fe-autoscaling" {
 
 }
 
-resource "aws_lb_target_group_attachment" "app-fe-attach-subnet1" {
-  target_group_arn = aws_lb_target_group.app-alb-fe-target-group.arn
-  target_id        = "10.100.100.0"
-  port             = 80
-}
-
-resource "aws_lb_target_group_attachment" "app-fe-attach-subnet2" {
-  target_group_arn = aws_lb_target_group.app-alb-fe-target-group.arn
-  target_id        = "10.100.200.0"
-  port             = 80
-}
+#resource "aws_lb_target_group_attachment" "app-fe-attach-subnet1" {
+#  target_group_arn = aws_lb_target_group.app-alb-fe-target-group.arn
+#  target_id        = "10.100.100.0"
+#  port             = 80
+#}
+#
+#resource "aws_lb_target_group_attachment" "app-fe-attach-subnet2" {
+#  target_group_arn = aws_lb_target_group.app-alb-fe-target-group.arn
+#  target_id        = "10.100.200.0"
+#  port             = 80
+#}
 
 resource "aws_lb_listener" "alb-listener-fe" {
   load_balancer_arn = aws_lb.app-alb.arn

@@ -13,7 +13,7 @@ resource "aws_ecs_service" "ecs-service-fe" {
   cluster         = aws_ecs_cluster.ecs-cluster-fe-oauth.id
   task_definition = aws_ecs_task_definition.ecs-task.arn
   desired_count   = 2
-  launch_type     = "EC2"
+  #launch_type     = "EC2"
   #iam_role        = aws_iam_role.foo.arn
   #depends_on      = [aws_iam_role_policy.foo]
 
