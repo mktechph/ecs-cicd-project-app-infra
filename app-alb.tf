@@ -74,7 +74,7 @@ resource "aws_autoscaling_group" "app-fe-autoscaling" {
   #target_group_arns = [aws_alb_target_group.app-alb-fe-target-group.arn]
 
   launch_template {
-    id      = aws_launch_template.launch-template-ecs.id
+    id      = aws_launch_template.ecs-cicd-launch-template.id
     version = "$Latest"
   }
 
