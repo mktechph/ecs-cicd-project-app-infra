@@ -85,7 +85,7 @@ module "module_app_subnet2" {
   subnet_cidr = "10.100.200.0/24"
   subnet_vpc  = module.module_app_vpc.output_vpc_id
   subnet_tags = {
-    Name        = "${local.Projectname}-${local.Environment}-app-subnet-app1"
+    Name        = "${local.Projectname}-${local.Environment}-app-subnet-app2"
     Environment = "${local.Environment}"
   }
 }
@@ -118,7 +118,7 @@ resource "aws_route_table_association" "rtb_app_assoc_tgw_subnet1" {
   subnet_id      = module.module_app_tgw_subnet1.outputs_subnet_id
   route_table_id = module.module_rtb_app.outputs_rtb_id
 }
-resource "aws_route_table_association" "rtb_app_assoc_app_subnet1" {
+resource "aws_route_table_association" "rtb_app_assoc_app_subnet2" {
   subnet_id      = module.module_app_tgw_subnet2.outputs_subnet_id
   route_table_id = module.module_rtb_app.outputs_rtb_id
 }

@@ -59,9 +59,9 @@ resource "aws_iam_role" "ecs-cicd-ec2-role" {
   })
 }
 
-resource "aws_iam_policy" "ecs-cicd-ec2-policy" {
+resource "aws_iam_role_policy" "ecs-cicd-ec2-policy" {
   name = "ecs-cicd-ec2-policy"
-  path = "/"
+  role = aws_iam_role.ecs-cicd-ec2-role.id
 
   policy = jsonencode({
     Version = "2012-10-17"
