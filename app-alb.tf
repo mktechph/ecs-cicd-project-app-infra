@@ -16,6 +16,7 @@ resource "aws_lb" "app-alb" {
 
 
 resource "aws_alb_target_group" "app-alb-fe-target-group" {
+  name        = "ecs-cicd-fe-target-group"
   target_type = "ip"
   port        = 80
   protocol    = "HTTP"
