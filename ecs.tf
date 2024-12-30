@@ -74,13 +74,17 @@ resource "aws_ecs_service" "ecs-service-fe" {
 }
 
 resource "aws_ecs_task_definition" "ecs-task" {
-  family = "ecs-cicd-task-definition"
+  family                   = "ecs-cicd-task-definition"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["EC2"]
+  cpu                      = 256
+  memory                   = 512
+
+
   container_definitions = jsonencode([
     {
       name      = "ecs-fe"
       image     = "public.ecr.aws/nginx/nginx:stable-perl"
-      cpu       = 1
-      memory    = 512
       essential = true
       portMappings = [
         {
@@ -91,9 +95,14 @@ resource "aws_ecs_task_definition" "ecs-task" {
     }
   ])
 
-  requires_compatibilities = ["EC2"]
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "X86_64"
+  }
+
+
   #execution_role_arn
-  network_mode = "awsvpc"
+
 
 
 }

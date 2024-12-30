@@ -71,8 +71,6 @@ resource "aws_autoscaling_group" "app-fe-autoscaling" {
   force_delete              = true
   vpc_zone_identifier       = [module.module_app_subnet1.outputs_subnet_id, module.module_app_subnet2.outputs_subnet_id]
 
-  #target_group_arns = [aws_alb_target_group.app-alb-fe-target-group.arn]
-
   launch_template {
     id      = aws_launch_template.ecs-cicd-launch-template.id
     version = "$Latest"
@@ -89,16 +87,3 @@ resource "aws_autoscaling_group" "app-fe-autoscaling" {
 
 
 }
-
-#resource "aws_lb_target_group_attachment" "app-fe-attach-subnet1" {
-#  target_group_arn = aws_lb_target_group.app-alb-fe-target-group.arn
-#  target_id        = "10.100.100.0"
-#  port             = 80
-#}
-#
-#resource "aws_lb_target_group_attachment" "app-fe-attach-subnet2" {
-#  target_group_arn = aws_lb_target_group.app-alb-fe-target-group.arn
-#  target_id        = "10.100.200.0"
-#  port             = 80
-#}
-

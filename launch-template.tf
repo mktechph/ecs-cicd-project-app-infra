@@ -32,7 +32,7 @@ resource "aws_launch_template" "ecs-cicd-launch-template" {
   }
 
 
-  #vpc_security_group_ids = ["sg-12345678"]
+  vpc_security_group_ids = [aws_security_group.sg_allow_all.id]
 }
 
 resource "aws_iam_instance_profile" "ecs-cicd-instance-profile" {
@@ -70,25 +70,26 @@ resource "aws_iam_role_policy" "ecs-cicd-ec2-policy" {
         "Sid" : "ECS",
         "Effect" : "Allow",
         "Action" : [
-          "ecs:ListClusters",
-          "ecs:ListContainerInstances",
-          "ecs:ListServices",
-          "ecs:ListTasks",
-          "ecs:ListTaskDefinitions",
-          "ecs:DescribeClusters",
-          "ecs:DescribeContainerInstances",
-          "ecs:DescribeServices",
-          "ecs:DescribeTasks",
-          "ecs:DescribeTaskDefinition",
-          "ecs:RegisterTaskDefinition",
-          "ecs:DeregisterTaskDefinition",
-          "ecs:CreateCluster",
-          "ecs:DeleteCluster",
-          "ecs:CreateService",
-          "ecs:UpdateService",
-          "ecs:DeleteService",
-          "ecs:RunTask",
-          "ecs:StopTask"
+          "ecs:*"
+          #"ecs:ListClusters",
+          #"ecs:ListContainerInstances",
+          #"ecs:ListServices",
+          #"ecs:ListTasks",
+          #"ecs:ListTaskDefinitions",
+          #"ecs:DescribeClusters",
+          #"ecs:DescribeContainerInstances",
+          #"ecs:DescribeServices",
+          #"ecs:DescribeTasks",
+          #"ecs:DescribeTaskDefinition",
+          #"ecs:RegisterTaskDefinition",
+          #"ecs:DeregisterTaskDefinition",
+          #"ecs:CreateCluster",
+          #"ecs:DeleteCluster",
+          #"ecs:CreateService",
+          #"ecs:UpdateService",
+          #"ecs:DeleteService",
+          #"ecs:RunTask",
+          #"ecs:StopTask"
         ],
         "Resource" : [
           "*"
@@ -98,22 +99,23 @@ resource "aws_iam_role_policy" "ecs-cicd-ec2-policy" {
         "Sid" : "ECR",
         "Effect" : "Allow",
         "Action" : [
-          "ecr:GetAuthorizationToken",
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:GetRepositoryPolicy",
-          "ecr:DescribeRepositories",
-          "ecr:ListImages",
-          "ecr:DescribeImages",
-          "ecr:BatchGetImage",
-          "ecr:GetLifecyclePolicy",
-          "ecr:GetLifecyclePolicyPreview",
-          "ecr:ListTagsForResource",
-          "ecr:DescribeImageScanFindings",
-          "ecr:InitiateLayerUpload",
-          "ecr:UploadLayerPart",
-          "ecr:CompleteLayerUpload",
-          "ecr:PutImage"
+          "ecr:*",
+          #"ecr:GetAuthorizationToken",
+          #"ecr:BatchCheckLayerAvailability",
+          #"ecr:GetDownloadUrlForLayer",
+          #"ecr:GetRepositoryPolicy",
+          #"ecr:DescribeRepositories",
+          #"ecr:ListImages",
+          #"ecr:DescribeImages",
+          #"ecr:BatchGetImage",
+          #"ecr:GetLifecyclePolicy",
+          #"ecr:GetLifecyclePolicyPreview",
+          #"ecr:ListTagsForResource",
+          #"ecr:DescribeImageScanFindings",
+          #"ecr:InitiateLayerUpload",
+          #"ecr:UploadLayerPart",
+          #"ecr:CompleteLayerUpload",
+          #"ecr:PutImage"
         ],
         "Resource" : "*"
       }
