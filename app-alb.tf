@@ -36,6 +36,19 @@ resource "aws_alb_target_group" "app-alb-fe-target-group" {
   }
 }
 
+resource "aws_lb_listener" "alb-listener-fe" {
+  load_balancer_arn = aws_lb.app-alb.arn
+  port              = "80"
+  protocol          = "HTTP"
+  #ssl_policy        = "ELBSecurityPolicy-2016-08"
+  #certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.app-alb-fe-target-group.arn
+  }
+}
+
 
 resource "aws_appautoscaling_target" "app-alb-fe-autoscaling-target" {
   max_capacity       = 4
@@ -56,6 +69,8 @@ resource "aws_autoscaling_group" "app-fe-autoscaling" {
   desired_capacity          = 2
   force_delete              = true
   vpc_zone_identifier       = [module.module_app_subnet1.outputs_subnet_id, module.module_app_subnet2.outputs_subnet_id]
+
+  target_group_arns = [aws_alb_target_group.app-alb-fe-target-group.arn]
 
   launch_template {
     id      = aws_launch_template.launch-template-ecs.id
@@ -86,15 +101,3 @@ resource "aws_autoscaling_group" "app-fe-autoscaling" {
 #  port             = 80
 #}
 
-resource "aws_lb_listener" "alb-listener-fe" {
-  load_balancer_arn = aws_lb.app-alb.arn
-  port              = "80"
-  protocol          = "HTTP"
-  #ssl_policy        = "ELBSecurityPolicy-2016-08"
-  #certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.app-alb-fe-target-group.arn
-  }
-}
