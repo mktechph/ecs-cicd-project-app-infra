@@ -16,7 +16,7 @@ resource "aws_lb" "app-alb" {
 
 
 resource "aws_alb_target_group" "app-alb-fe-target-group" {
-  target_type = "ip"
+  target_type = "instance"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = module.module_app_vpc.output_vpc_id
