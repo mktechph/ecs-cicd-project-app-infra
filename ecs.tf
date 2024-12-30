@@ -23,6 +23,18 @@ resource "aws_ecs_capacity_provider" "ecs-capacity-provider" {
   }
 }
 
+resource "aws_ecs_cluster_capacity_providers" "ecs-cluster-capacity-provider" {
+  cluster_name = aws_ecs_cluster.ecs-cluster-fe-oauth.name
+
+  capacity_providers = [aws_ecs_capacity_provider.ecs-capacity-provider.name]
+
+  default_capacity_provider_strategy {
+    base              = 1
+    weight            = 100
+    capacity_provider = aws_ecs_capacity_provider.ecs-capacity-provider.name
+  }
+}
+
 resource "aws_ecs_service" "ecs-service-fe" {
   name            = "ecs-service-fe"
   cluster         = aws_ecs_cluster.ecs-cluster-fe-oauth.id
