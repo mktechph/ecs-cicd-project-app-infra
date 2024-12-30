@@ -118,7 +118,7 @@ resource "aws_route_table_association" "rtb_app_assoc_tgw_subnet1" {
   subnet_id      = module.module_app_tgw_subnet1.outputs_subnet_id
   route_table_id = module.module_rtb_app.outputs_rtb_id
 }
-resource "aws_route_table_association" "rtb_app_assoc_app_subnet2" {
+resource "aws_route_table_association" "rtb_app_assoc_app_subnet1" {
   subnet_id      = module.module_app_tgw_subnet2.outputs_subnet_id
   route_table_id = module.module_rtb_app.outputs_rtb_id
 }
