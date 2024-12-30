@@ -81,7 +81,7 @@ resource "aws_ecs_task_definition" "ecs-task" {
 
   requires_compatibilities = ["EC2"]
   #execution_role_arn
-  network_mode = "awsvpc"
+  network_mode = "bridge"
 
 
 }
