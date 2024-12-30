@@ -1,5 +1,5 @@
 resource "aws_ecs_cluster" "ecs-cluster-fe-oauth" {
-  name = "ecs-fe-oauth"
+  name = "ecs-cicd-fe-oauth"
 
   setting {
     name  = "containerInsights"
@@ -8,7 +8,7 @@ resource "aws_ecs_cluster" "ecs-cluster-fe-oauth" {
 }
 
 resource "aws_ecs_capacity_provider" "ecs-capacity-provider" {
-  name = "capacity_provider"
+  name = "ecs-cicd-capacity_provider"
 
   auto_scaling_group_provider {
     auto_scaling_group_arn         = aws_autoscaling_group.app-fe-autoscaling.arn
@@ -62,7 +62,7 @@ resource "aws_ecs_service" "ecs-service-fe" {
 }
 
 resource "aws_ecs_task_definition" "ecs-task" {
-  family = "ecs-task"
+  family = "ecs-cicd-task-definition"
   container_definitions = jsonencode([
     {
       name      = "ecs-fe"
@@ -81,7 +81,7 @@ resource "aws_ecs_task_definition" "ecs-task" {
 
   requires_compatibilities = ["EC2"]
   #execution_role_arn
-  network_mode = "bridge"
+  network_mode = "awsvpc"
 
 
 }

@@ -16,7 +16,7 @@ resource "aws_lb" "app-alb" {
 
 
 resource "aws_alb_target_group" "app-alb-fe-target-group" {
-  target_type = "instance"
+  target_type = "ip"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = module.module_app_vpc.output_vpc_id
@@ -50,18 +50,18 @@ resource "aws_lb_listener" "alb-listener-fe" {
 }
 
 
-resource "aws_appautoscaling_target" "app-alb-fe-autoscaling-target" {
-  max_capacity       = 4
-  min_capacity       = 2
-  resource_id        = "service/${aws_ecs_cluster.ecs-cluster-fe-oauth.name}/${aws_ecs_service.ecs-service-fe.name}"
-  scalable_dimension = "ecs:service:DesiredCount"
-  service_namespace  = "ecs"
-}
+#resource "aws_appautoscaling_target" "app-alb-fe-autoscaling-target" {
+#  max_capacity       = 4
+#  min_capacity       = 2
+#  resource_id        = "service/${aws_ecs_cluster.ecs-cluster-fe-oauth.name}/${aws_ecs_service.ecs-service-fe.name}"
+#  scalable_dimension = "ecs:service:DesiredCount"
+#  service_namespace  = "ecs"
+#}
 
 
 
 resource "aws_autoscaling_group" "app-fe-autoscaling" {
-  name                      = "ecs-fe-autoscaling"
+  name                      = "ecs-cicd-fe-autoscaling"
   max_size                  = 2
   min_size                  = 2
   health_check_grace_period = 300
@@ -70,7 +70,7 @@ resource "aws_autoscaling_group" "app-fe-autoscaling" {
   force_delete              = true
   vpc_zone_identifier       = [module.module_app_subnet1.outputs_subnet_id, module.module_app_subnet2.outputs_subnet_id]
 
-  target_group_arns = [aws_alb_target_group.app-alb-fe-target-group.arn]
+  #target_group_arns = [aws_alb_target_group.app-alb-fe-target-group.arn]
 
   launch_template {
     id      = aws_launch_template.launch-template-ecs.id
