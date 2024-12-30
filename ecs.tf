@@ -8,7 +8,7 @@ resource "aws_ecs_cluster" "ecs-cluster-fe-oauth" {
 }
 
 resource "aws_ecs_capacity_provider" "ecs-capacity-provider" {
-  name = "ecs-cicd-capacity_provider"
+  name = "capacity-provider-ecs-cicd"
 
   auto_scaling_group_provider {
     auto_scaling_group_arn         = aws_autoscaling_group.app-fe-autoscaling.arn
