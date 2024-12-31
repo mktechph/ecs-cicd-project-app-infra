@@ -1,6 +1,6 @@
 resource "aws_launch_template" "ecs-cicd-launch-template" {
   name          = "ecs-launch-template"
-  image_id      = "ami-00237a21ff6310ec6"
+  image_id      = "ami-0f43bb967ff742242"
   instance_type = "t3.small"
 
   block_device_mappings {
