@@ -23,7 +23,7 @@ resource "aws_launch_template" "ecs-cicd-launch-template" {
 
 
   iam_instance_profile {
-    arn = aws_iam_instance_profile.ecs-cicd-instance-profile.arn
+    arn = "arn:aws:iam::015594108990:instance-profile/ecs-cicd-project-role"
   }
 
 
