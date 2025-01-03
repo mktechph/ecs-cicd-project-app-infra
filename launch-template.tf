@@ -1,6 +1,6 @@
 resource "aws_launch_template" "ecs-cicd-launch-template" {
   name          = "ecs-launch-template"
-  image_id      = "ami-00c5ab2b90812de8b"
+  image_id      = "ami-04701aabb3f8b4d74"
   instance_type = "t3.small"
 
   block_device_mappings {
@@ -30,8 +30,7 @@ resource "aws_launch_template" "ecs-cicd-launch-template" {
   monitoring {
     enabled = true
   }
-
-
+  
   vpc_security_group_ids = [aws_security_group.sg_allow_all.id]
 }
 
