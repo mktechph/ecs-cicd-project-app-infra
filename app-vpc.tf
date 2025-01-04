@@ -142,7 +142,7 @@ resource "aws_route_table_association" "rtb_app_assoc_nlb_subnet2" {
 
 module "module_app_ecs_ecr_subnet1_endpoint" {
   source  = "app.terraform.io/marvsmpb/vpc-endpoint-ecs-ecr-marvs/aws"
-  version = "0.0.6"
+  version = "0.0.7"
 
   vpc_id = module.module_app_vpc.output_vpc_id
 
@@ -151,6 +151,13 @@ module "module_app_ecs_ecr_subnet1_endpoint" {
   ecs_telemetry_endpoint_subnet_id = [module.module_app_subnet1.outputs_subnet_id]
   ecr_api_endpoint_subnet_id       = [module.module_app_subnet1.outputs_subnet_id]
   ecr_dkr_endpoint_subnet_id       = [module.module_app_subnet1.outputs_subnet_id]
+
+  sg_ecr_api_endpoint       = [aws_security_group.sg_allow_all.id]
+  sg_ecr_dkr_endpoint       = [aws_security_group.sg_allow_all.id]
+  sg_ecs_agent_endpoint     = [aws_security_group.sg_allow_all.id]
+  sg_ecs_endpoint           = [aws_security_group.sg_allow_all.id]
+  sg_ecs_telemetry_endpoint = [aws_security_group.sg_allow_all.id]
+
 
   endpoint_tags = {
     Name        = "${local.Projectname}-${local.Environment}-app-ecs-ecr-endpoint-subnet1-app1"

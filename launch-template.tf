@@ -30,7 +30,7 @@ resource "aws_launch_template" "ecs-cicd-launch-template" {
   monitoring {
     enabled = true
   }
-  
+
   vpc_security_group_ids = [aws_security_group.sg_allow_all.id]
 }
 
