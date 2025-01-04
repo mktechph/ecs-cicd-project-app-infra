@@ -192,6 +192,22 @@ resource "aws_vpc_endpoint" "s3_endpoint" {
 }
 
 
+module "module_ssm_endpoint" {
+  source  = "app.terraform.io/marvsmpb/vpc-endpoint-ssm/aws"
+  version = "0.0.2"
+
+  vpc_id = module.module_app_vpc.output_vpc_id
+
+  ec2_messages_subnet_id = module.module_app_subnet1.outputs_subnet_id
+  ssm_endpoint_subnet_id = module.module_app_subnet1.outputs_subnet_id
+  ssm_messages_subnet_id = module.module_app_subnet1.outputs_subnet_id
+
+  endpoint_tags = {
+    Name        = "${local.Projectname}-${local.Environment}-app-ssm-endpoints"
+    Environment = "${local.Environment}"
+  }
+}
+
 #module "module_app_vpc_peering" {
 #  source  = "app.terraform.io/marvsmpb/vpc-peering-owner-marvs/aws"
 #  version = "0.0.3"

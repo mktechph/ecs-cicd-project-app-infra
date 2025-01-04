@@ -121,3 +121,6 @@ resource "aws_iam_role_policy" "ecs-cicd-ec2-policy" {
     ]
   })
 }
+
+
+
