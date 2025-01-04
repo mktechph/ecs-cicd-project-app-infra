@@ -5,7 +5,8 @@ data "aws_ssm_parameter" "ecs-optimized" {
 resource "aws_launch_template" "ecs-cicd-launch-template" {
   name          = "ecs-launch-template"
   image_id      = data.aws_ssm_parameter.ecs-optimized.value
-  instance_type = "t3.small"
+  instance_type = "t3.medium"
+  key_name = "test"
 
   block_device_mappings {
     device_name = "/dev/sdf"
