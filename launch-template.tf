@@ -4,7 +4,7 @@ data "aws_ssm_parameter" "ecs-optimized" {
 
 resource "aws_launch_template" "ecs-cicd-launch-template" {
   name          = "ecs-launch-template"
-  image_id      = data.aws_ssm_parameter.ecs-optimized.value
+  image_id      = "ami-0d5c43a84ffd669fe"
   instance_type = "t3.medium"
   key_name      = "ecs-cicd-project"
 
