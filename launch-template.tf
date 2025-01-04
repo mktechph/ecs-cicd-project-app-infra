@@ -1,6 +1,10 @@
+data "aws_ssm_parameter" "ecs-optimized" {
+  name = "/aws/service/ecs/optimized-ami/amazon-linux-2023/recommended/image_id"
+}
+
 resource "aws_launch_template" "ecs-cicd-launch-template" {
   name          = "ecs-launch-template"
-  image_id      = "ami-0f43bb967ff742242"
+  image_id      = data.aws_ssm_parameter.ecs-optimized
   instance_type = "t3.small"
 
   block_device_mappings {
