@@ -72,8 +72,8 @@ resource "aws_autoscaling_group" "app-fe-autoscaling" {
   vpc_zone_identifier       = [module.module_app_subnet1.outputs_subnet_id, module.module_app_subnet2.outputs_subnet_id]
 
   launch_template {
-    #id      = aws_launch_template.ecs-cicd-launch-template.id
-    id      = "lt-0d10601275565fcb5"
+    id = aws_launch_template.ecs-cicd-launch-template.id
+    #id      = "lt-0d10601275565fcb5"
     version = "$Latest"
   }
 
