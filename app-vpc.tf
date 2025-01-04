@@ -198,9 +198,9 @@ module "module_ssm_endpoint" {
 
   vpc_id = module.module_app_vpc.output_vpc_id
 
-  ec2_messages_subnet_id = module.module_app_subnet1.outputs_subnet_id
-  ssm_endpoint_subnet_id = module.module_app_subnet1.outputs_subnet_id
-  ssm_messages_subnet_id = module.module_app_subnet1.outputs_subnet_id
+  ec2_messages_subnet_id = [module.module_app_subnet1.outputs_subnet_id]
+  ssm_endpoint_subnet_id = [module.module_app_subnet1.outputs_subnet_id]
+  ssm_messages_subnet_id = [module.module_app_subnet1.outputs_subnet_id]
 
   endpoint_tags = {
     Name        = "${local.Projectname}-${local.Environment}-app-ssm-endpoints"
