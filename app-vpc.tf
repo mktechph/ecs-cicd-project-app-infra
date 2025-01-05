@@ -2,7 +2,7 @@
 
 module "module_app_vpc" {
   source  = "app.terraform.io/marvsmpb/vpc-module-marvs/aws"
-  version = "1.0.3"
+  version = "1.0.4"
 
   vpc_cidr_block = "10.100.0.0/16"
   vpc_tags = {
@@ -142,7 +142,7 @@ resource "aws_route_table_association" "rtb_app_assoc_nlb_subnet2" {
 
 module "module_app_ecs_ecr_subnet1_endpoint" {
   source  = "app.terraform.io/marvsmpb/vpc-endpoint-ecs-ecr-marvs/aws"
-  version = "0.0.7"
+  version = "0.0.8"
 
   vpc_id = module.module_app_vpc.output_vpc_id
 
@@ -194,13 +194,17 @@ resource "aws_vpc_endpoint" "s3_endpoint" {
 
 module "module_ssm_endpoint" {
   source  = "app.terraform.io/marvsmpb/vpc-endpoint-ssm/aws"
-  version = "0.0.2"
+  version = "0.0.3"
 
   vpc_id = module.module_app_vpc.output_vpc_id
 
   ec2_messages_subnet_id = [module.module_app_subnet1.outputs_subnet_id]
   ssm_endpoint_subnet_id = [module.module_app_subnet1.outputs_subnet_id]
   ssm_messages_subnet_id = [module.module_app_subnet1.outputs_subnet_id]
+
+  sg_ec2_messages = [aws_security_group.sg_allow_all.id]
+  sg_ssm_endpoint = [aws_security_group.sg_allow_all.id]
+  sg_ssm_messages = [aws_security_group.sg_allow_all.id]
 
   endpoint_tags = {
     Name        = "${local.Projectname}-${local.Environment}-app-ssm-endpoints"

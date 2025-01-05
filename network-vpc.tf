@@ -2,7 +2,7 @@
 
 ##module "module_network_vpc" {
 ##  source  = "app.terraform.io/marvsmpb/vpc-module-marvs/aws"
-##  version = "1.0.3"
+##  version = "1.0.4"
 ##
 ##  vpc_cidr_block = "10.200.0.0/16"
 ##  vpc_tags = {
