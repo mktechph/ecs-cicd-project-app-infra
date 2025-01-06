@@ -15,7 +15,7 @@ resource "aws_lb" "app-alb" {
 }
 
 resource "aws_autoscaling_group" "app-autoscaling-fe-oauth" {
-  name                      = "ecs-cicd-fe-autoscaling"
+  name                      = "ecs-cicd-utoscaling-fe-oauth"
   max_size                  = 2
   min_size                  = 2
   health_check_grace_period = 300
