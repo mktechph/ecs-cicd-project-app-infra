@@ -35,6 +35,9 @@ resource "aws_ecs_cluster_capacity_providers" "ecs-cluster-capacity-provider" {
   }
 }
 
+
+## FE ##
+
 resource "aws_ecs_service" "ecs-service-fe" {
   name            = "ecs-service-fe"
   cluster         = aws_ecs_cluster.ecs-cluster-fe-oauth.id
@@ -62,7 +65,7 @@ resource "aws_ecs_service" "ecs-service-fe" {
     container_name   = "ecs-cicd-project-app-fe"
     container_port   = 80
   }
- 
+
   network_configuration {
     subnets = [module.module_app_subnet1.outputs_subnet_id, module.module_app_subnet2.outputs_subnet_id]
     #security_groups = []
@@ -71,18 +74,18 @@ resource "aws_ecs_service" "ecs-service-fe" {
 
 }
 
-resource "aws_ecs_task_definition" "ecs-task" {
-  family                   = "ecs-cicd-task-definition"
+resource "aws_ecs_task_definition" "ecs-task-fe" {
+  family                   = "ecs-cicd-task-definition-fe"
   network_mode             = "awsvpc"
   requires_compatibilities = ["EC2"]
   cpu                      = 256
-  memory                   = 512
+  memory                   = 256
 
 
   container_definitions = jsonencode([
     {
       name      = "ecs-cicd-project-app-fe"
-      image     = "public.ecr.aws/nginx/nginx:stable-perl"
+      image     = "public.ecr.aws/docker/library/httpd:2.4"
       essential = true
       portMappings = [
         {
@@ -101,7 +104,77 @@ resource "aws_ecs_task_definition" "ecs-task" {
 
   #execution_role_arn
 
+}
 
+
+
+## OAUTH ##
+
+resource "aws_ecs_service" "ecs-service-oauth" {
+  name            = "ecs-service-oauth"
+  cluster         = aws_ecs_cluster.ecs-cluster-fe-oauth.id
+  task_definition = aws_ecs_task_definition.ecs-task-oauth.arn
+  desired_count   = 2
+  #launch_type     = "EC2"
+  #iam_role        = aws_iam_role.foo.arn
+  #depends_on      = [aws_iam_role_policy.foo]
+
+  deployment_circuit_breaker {
+    enable   = true
+    rollback = true
+  }
+
+  deployment_controller {
+    type = "ECS"
+  }
+
+  deployment_maximum_percent         = 200
+  deployment_minimum_healthy_percent = 100
+
+
+  load_balancer {
+    target_group_arn = aws_alb_target_group.app-alb-oauth-target-group.arn
+    container_name   = "ecs-cicd-project-app-oauth"
+    container_port   = 80
+  }
+
+  network_configuration {
+    subnets = [module.module_app_subnet1.outputs_subnet_id, module.module_app_subnet2.outputs_subnet_id]
+    #security_groups = []
+    assign_public_ip = false
+  }
 
 }
 
+
+resource "aws_ecs_task_definition" "ecs-task-oauth" {
+  family                   = "ecs-cicd-task-definition-oauth"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["EC2"]
+  cpu                      = 256
+  memory                   = 256
+
+
+  container_definitions = jsonencode([
+    {
+      name      = "ecs-cicd-project-app-oauth"
+      image     = "public.ecr.aws/docker/library/httpd:2.4"
+      essential = true
+      portMappings = [
+        {
+          containerPort = 80
+          hostPort      = 80
+        }
+      ]
+    }
+  ])
+
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "X86_64"
+  }
+
+
+  #execution_role_arn
+
+}
