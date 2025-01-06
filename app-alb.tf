@@ -14,7 +14,7 @@ resource "aws_lb" "app-alb" {
   }
 }
 
-resource "aws_autoscaling_group" "app-fe-autoscaling" {
+resource "aws_autoscaling_group" "app-autoscaling-fe-oauth" {
   name                      = "ecs-cicd-fe-autoscaling"
   max_size                  = 2
   min_size                  = 2
