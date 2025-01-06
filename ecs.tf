@@ -44,8 +44,6 @@ resource "aws_ecs_service" "ecs-service-fe" {
   #iam_role        = aws_iam_role.foo.arn
   #depends_on      = [aws_iam_role_policy.foo]
 
-
-
   deployment_circuit_breaker {
     enable   = true
     rollback = true
@@ -61,10 +59,10 @@ resource "aws_ecs_service" "ecs-service-fe" {
 
   load_balancer {
     target_group_arn = aws_alb_target_group.app-alb-fe-target-group.arn
-    container_name   = "ecs-fe"
+    container_name   = "ecs-cicd-project-app-fe"
     container_port   = 80
   }
-
+ 
   network_configuration {
     subnets = [module.module_app_subnet1.outputs_subnet_id, module.module_app_subnet2.outputs_subnet_id]
     #security_groups = []
