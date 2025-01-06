@@ -81,7 +81,7 @@ resource "aws_ecs_task_definition" "ecs-task" {
 
   container_definitions = jsonencode([
     {
-      name      = "ecs-fe"
+      name      = "ecs-cicd-project-app-fe"
       image     = "public.ecr.aws/nginx/nginx:stable-perl"
       essential = true
       portMappings = [
