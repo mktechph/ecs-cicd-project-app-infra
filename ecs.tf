@@ -167,7 +167,7 @@ resource "aws_ecs_task_definition" "ecs-task-oauth" {
           containerPort = 80
           hostPort      = 80
           protocol      = "tcp"
-          appProtocol   = http
+          appProtocol   = "http"
         }
       ]
     }
