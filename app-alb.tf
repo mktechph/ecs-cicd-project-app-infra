@@ -43,6 +43,19 @@ resource "aws_autoscaling_group" "app-autoscaling-fe-oauth" {
 }
 
 
+resource "aws_lb_listener" "alb-listener-fe-oauth" {
+  load_balancer_arn = aws_lb.app-alb.arn
+  port              = "80"
+  protocol          = "HTTP"
+  #ssl_policy        = "ELBSecurityPolicy-2016-08"
+  #certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.app-alb-fe-target-group.arn
+  }
+}
+
 ## FE ##
 
 resource "aws_alb_target_group" "app-alb-fe-target-group" {
@@ -67,21 +80,9 @@ resource "aws_alb_target_group" "app-alb-fe-target-group" {
   }
 }
 
-resource "aws_lb_listener" "alb-listener-fe" {
-  load_balancer_arn = aws_lb.app-alb.arn
-  port              = "80"
-  protocol          = "HTTP"
-  #ssl_policy        = "ELBSecurityPolicy-2016-08"
-  #certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.app-alb-fe-target-group.arn
-  }
-}
 
 resource "aws_lb_listener_rule" "alb-listener-rule-fe" {
-  listener_arn = aws_lb_listener.alb-listener-fe.arn
+  listener_arn = aws_lb_listener.alb-listener-fe-oauth.arn
   priority     = 100
 
   action {
@@ -122,21 +123,9 @@ resource "aws_alb_target_group" "app-alb-oauth-target-group" {
   }
 }
 
-resource "aws_lb_listener" "alb-listener-oauth" {
-  load_balancer_arn = aws_lb.app-alb.arn
-  port              = "80"
-  protocol          = "HTTP"
-  #ssl_policy        = "ELBSecurityPolicy-2016-08"
-  #certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.app-alb-oauth-target-group.arn
-  }
-}
 
 resource "aws_lb_listener_rule" "alb-listener-rule-oauth" {
-  listener_arn = aws_lb_listener.alb-listener-oauth.arn
+  listener_arn = aws_lb_listener.alb-listener-fe-oauth.arn
   priority     = 100
 
   action {
