@@ -30,7 +30,7 @@ resource "aws_ecs_cluster_capacity_providers" "ecs-cluster-capacity-provider" {
 
   default_capacity_provider_strategy {
     base              = 1
-    weight            = 100
+    weight            = 1
     capacity_provider = aws_ecs_capacity_provider.ecs-capacity-provider.name
   }
 }
@@ -67,8 +67,8 @@ resource "aws_ecs_service" "ecs-service-fe" {
   }
 
   network_configuration {
-    subnets = [module.module_app_subnet1.outputs_subnet_id, module.module_app_subnet2.outputs_subnet_id]
-    #security_groups = []
+    subnets          = [module.module_app_subnet1.outputs_subnet_id, module.module_app_subnet2.outputs_subnet_id]
+    security_groups  = [aws_security_group.sg_ecs.id]
     assign_public_ip = false
   }
 
@@ -84,15 +84,18 @@ resource "aws_ecs_task_definition" "ecs-task-fe" {
 
   container_definitions = jsonencode([
     {
-      name      = "ecs-cicd-project-app-fe"
-      image     = "015594108990.dkr.ecr.ap-southeast-1.amazonaws.com/ecs-cicd-project-app-oauth-repo:e5605a2c4091d44fe1bec807ddc062eefcb5388d"
+      name      = "fe-container"
+      image     = "${aws_ecr_repository.ecr_repo_fe.repository_url}:latest"
       essential = true
+      cpu       = 256
+      memory    = 256
       portMappings = [
         {
           containerPort = 80
-          hostPort      = 0
+          hostPort      = 80
           protocol      = "tcp"
           appProtocol   = "http"
+
         }
       ]
     }
@@ -159,13 +162,15 @@ resource "aws_ecs_task_definition" "ecs-task-oauth" {
 
   container_definitions = jsonencode([
     {
-      name      = "ecs-cicd-project-app-oauth"
-      image     = "015594108990.dkr.ecr.ap-southeast-1.amazonaws.com/ecs-cicd-project-app-oauth-repo:e5605a2c4091d44fe1bec807ddc062eefcb5388d"
+      name      = "oauth-container"
+      image     = "${aws_ecr_repository.ecr_repo_oauth.repository_url}:latest"
       essential = true
+      cpu       = 256
+      memory    = 256
       portMappings = [
         {
           containerPort = 80
-          hostPort      = 0
+          hostPort      = 80
           protocol      = "tcp"
           appProtocol   = "http"
         }
