@@ -135,7 +135,7 @@ resource "aws_alb_target_group" "app-alb-oauth-target-group" {
 
 resource "aws_lb_listener_rule" "alb-listener-rule-oauth" {
   listener_arn = aws_lb_listener.alb-listener-fe-oauth.arn
-  priority     = 200
+  priority     = 100
 
   action {
     type             = "forward"

@@ -62,7 +62,7 @@ resource "aws_ecs_service" "ecs-service-fe" {
 
   load_balancer {
     target_group_arn = aws_alb_target_group.app-alb-fe-target-group.arn
-    container_name   = "ecs-cicd-project-app-fe"
+    container_name   = "fe-container"
     container_port   = 80
   }
 
@@ -139,7 +139,7 @@ resource "aws_ecs_service" "ecs-service-oauth" {
 
   load_balancer {
     target_group_arn = aws_alb_target_group.app-alb-oauth-target-group.arn
-    container_name   = "ecs-cicd-project-app-oauth"
+    container_name   = "oauth-container"
     container_port   = 80
   }
 
