@@ -10,12 +10,12 @@ resource "aws_launch_template" "ecs-cicd-launch-template" {
 
   #user_data = filebase64("${path.module}/user_data.sh")
   user_data = base64encode(<<EOF
-  #!/bin/bash
-  cd /tmp
-  sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
-  sudo systemctl enable amazon-ssm-agent
-  sudo systemctl start amazon-ssm-agent
-  echo ECS_CLUSTER=${aws_ecs_cluster.ecs-cluster-fe-oauth.name} >> /etc/ecs/ecs.config
+#!/bin/bash
+cd /tmp
+sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+sudo systemctl enable amazon-ssm-agent
+sudo systemctl start amazon-ssm-agent
+echo ECS_CLUSTER=${aws_ecs_cluster.ecs-cluster-fe-oauth.name} >> /etc/ecs/ecs.config
   EOF
   )
 
