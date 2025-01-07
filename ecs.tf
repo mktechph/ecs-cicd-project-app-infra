@@ -85,7 +85,7 @@ resource "aws_ecs_task_definition" "ecs-task-fe" {
   container_definitions = jsonencode([
     {
       name      = "ecs-cicd-project-app-fe"
-      image     = "public.ecr.aws/docker/library/httpd:2.4"
+      image     = "015594108990.dkr.ecr.ap-southeast-1.amazonaws.com/ecs-cicd-project-app-oauth-repo:e5605a2c4091d44fe1bec807ddc062eefcb5388d"
       essential = true
       portMappings = [
         {
@@ -160,7 +160,7 @@ resource "aws_ecs_task_definition" "ecs-task-oauth" {
   container_definitions = jsonencode([
     {
       name      = "ecs-cicd-project-app-oauth"
-      image     = "public.ecr.aws/docker/library/httpd:2.4"
+      image     = "015594108990.dkr.ecr.ap-southeast-1.amazonaws.com/ecs-cicd-project-app-oauth-repo:e5605a2c4091d44fe1bec807ddc062eefcb5388d"
       essential = true
       portMappings = [
         {
