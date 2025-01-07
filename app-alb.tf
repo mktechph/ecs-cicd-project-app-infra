@@ -61,7 +61,7 @@ resource "aws_lb_listener" "alb-listener-fe-oauth" {
 resource "aws_alb_target_group" "app-alb-fe-target-group" {
   name        = "ecs-cicd-fe-target-group"
   target_type = "ip"
-  port        = 80
+  port        = 8080
   protocol    = "HTTP"
   vpc_id      = module.module_app_vpc.output_vpc_id
 
@@ -104,7 +104,7 @@ resource "aws_lb_listener_rule" "alb-listener-rule-fe" {
 resource "aws_alb_target_group" "app-alb-oauth-target-group" {
   name        = "ecs-cicd-oauth-target-group"
   target_type = "ip"
-  port        = 80
+  port        = 8081
   protocol    = "HTTP"
   vpc_id      = module.module_app_vpc.output_vpc_id
 

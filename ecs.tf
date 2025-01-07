@@ -63,7 +63,7 @@ resource "aws_ecs_service" "ecs-service-fe" {
   load_balancer {
     target_group_arn = aws_alb_target_group.app-alb-fe-target-group.arn
     container_name   = "ecs-cicd-project-app-fe"
-    container_port   = 80
+    container_port   = 8080
   }
 
   network_configuration {
@@ -89,7 +89,7 @@ resource "aws_ecs_task_definition" "ecs-task-fe" {
       essential = true
       portMappings = [
         {
-          containerPort = 80
+          containerPort = 8080
           hostPort      = 80
           protocol      = "tcp"
           appProtocol   = "http"
@@ -137,7 +137,7 @@ resource "aws_ecs_service" "ecs-service-oauth" {
   load_balancer {
     target_group_arn = aws_alb_target_group.app-alb-oauth-target-group.arn
     container_name   = "ecs-cicd-project-app-oauth"
-    container_port   = 80
+    container_port   = 8081
   }
 
   network_configuration {
@@ -164,7 +164,7 @@ resource "aws_ecs_task_definition" "ecs-task-oauth" {
       essential = true
       portMappings = [
         {
-          containerPort = 80
+          containerPort = 8081
           hostPort      = 80
           protocol      = "tcp"
           appProtocol   = "http"
