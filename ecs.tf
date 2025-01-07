@@ -90,7 +90,7 @@ resource "aws_ecs_task_definition" "ecs-task-fe" {
       portMappings = [
         {
           containerPort = 80
-          #hostPort      = 80
+          hostPort      = 0
           protocol      = "tcp"
           appProtocol   = "http"
         }
@@ -165,7 +165,7 @@ resource "aws_ecs_task_definition" "ecs-task-oauth" {
       portMappings = [
         {
           containerPort = 80
-          #hostPort      = 80
+          hostPort      = 0
           protocol      = "tcp"
           appProtocol   = "http"
         }
