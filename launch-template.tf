@@ -5,7 +5,7 @@ data "aws_ssm_parameter" "ecs-optimized" {
 resource "aws_launch_template" "ecs-cicd-launch-template" {
   name          = "ecs-launch-template"
   image_id      = "ami-0d5c43a84ffd669fe"
-  instance_type = "t3.small"
+  instance_type = "t3.micro"
   key_name      = "ecs-cicd-project"
 
   #user_data = filebase64("${path.module}/user_data.sh")
