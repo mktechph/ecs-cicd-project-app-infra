@@ -144,7 +144,7 @@ resource "aws_lb_listener_rule" "alb-listener-rule-oauth" {
 
   condition {
     path_pattern {
-      values = ["/oauth"]
+      values = ["/oauth/*"]
     }
   }
 }
