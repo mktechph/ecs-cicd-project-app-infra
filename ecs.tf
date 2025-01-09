@@ -80,7 +80,7 @@ resource "aws_ecs_task_definition" "ecs-task-fe" {
   family                   = "ecs-cicd-task-definition-fe"
   network_mode             = "awsvpc"
   requires_compatibilities = ["EC2"]
-  cpu                      = 128
+  cpu                      = 256
   memory                   = 256
 
 
