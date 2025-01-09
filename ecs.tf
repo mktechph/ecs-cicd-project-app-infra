@@ -81,7 +81,7 @@ resource "aws_ecs_task_definition" "ecs-task-fe" {
   network_mode             = "awsvpc"
   requires_compatibilities = ["EC2"]
   cpu                      = 128
-  memory                   = 128
+  memory                   = 256
 
 
   container_definitions = jsonencode([
@@ -90,8 +90,8 @@ resource "aws_ecs_task_definition" "ecs-task-fe" {
       image     = "${aws_ecr_repository.ecr_repo_fe.repository_url}:latest"
       #image     = "${data.aws_ecr_image.data_ecr_image_fe.image_uri}:${data.aws_ecr_image.data_ecr_image_fe.image_tags[0]}"
       essential = true
-      cpu       = 128
-      memory    = 128
+      cpu       = 256
+      memory    = 256
       portMappings = [
         {
           containerPort = 80
@@ -167,8 +167,8 @@ resource "aws_ecs_task_definition" "ecs-task-oauth" {
   family                   = "ecs-cicd-task-definition-oauth"
   network_mode             = "awsvpc"
   requires_compatibilities = ["EC2"]
-  cpu                      = 128
-  memory                   = 128
+  cpu                      = 256
+  memory                   = 256
 
 
   container_definitions = jsonencode([
@@ -177,8 +177,8 @@ resource "aws_ecs_task_definition" "ecs-task-oauth" {
       image     = "${aws_ecr_repository.ecr_repo_oauth.repository_url}:latest"
       #image     = "${data.aws_ecr_image.data_ecr_image_oauth.image_uri}:${data.aws_ecr_image.data_ecr_image_oauth.image_tags[0]}"
       essential = true
-      cpu       = 128
-      memory    = 128
+      cpu       = 256
+      memory    = 256
       portMappings = [
         {
           containerPort = 80
