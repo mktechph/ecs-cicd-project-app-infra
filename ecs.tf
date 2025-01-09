@@ -100,15 +100,7 @@ resource "aws_ecs_task_definition" "ecs-task-fe" {
           appProtocol   = "http"
 
         }
-      ],
-      "logConfiguration" : {
-        "logDriver" : "awslogs",
-        "options" : {
-          "awslogs-group" : "/ecs/ecs-cicd/task-fe",
-          "awslogs-region" : "ap-southeast-1",
-          "awslogs-stream-prefix" : "ecs"
-        }
-      }
+      ]
     }
   ])
 
@@ -186,15 +178,7 @@ resource "aws_ecs_task_definition" "ecs-task-oauth" {
           protocol      = "tcp"
           appProtocol   = "http"
         }
-      ],
-      "logConfiguration" : {
-        "logDriver" : "awslogs",
-        "options" : {
-          "awslogs-group" : "/ecs/ecs-cicd/task-oauth",
-          "awslogs-region" : "ap-southeast-1",
-          "awslogs-stream-prefix" : "ecs"
-        }
-      }
+      ]
     }
   ])
 
