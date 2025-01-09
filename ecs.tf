@@ -88,7 +88,7 @@ resource "aws_ecs_task_definition" "ecs-task-fe" {
     {
       name = "fe-container"
       #image     = "${aws_ecr_repository.ecr_repo_fe.repository_url}:latest"
-      image     = "${data.aws_ecr_image.data_ecr_image_fe.repository_url}:${data.aws_ecr_image.data_ecr_image_fe.image_tags[0]}"
+      image     = "${data.aws_ecr_image.data_ecr_image_fe.image_uri}:${data.aws_ecr_image.data_ecr_image_fe.image_tags[0]}"
       essential = true
       cpu       = 128
       memory    = 128
@@ -176,7 +176,7 @@ resource "aws_ecs_task_definition" "ecs-task-oauth" {
     {
       name = "oauth-container"
       #image     = "${aws_ecr_repository.ecr_repo_oauth.repository_url}:latest"
-      image     = "${data.aws_ecr_image.data_ecr_image_oauth.repository_url}:${data.aws_ecr_image.data_ecr_image_oauth.image_tags[0]}"
+      image     = "${data.aws_ecr_image.data_ecr_image_oauth.image_uri}:${data.aws_ecr_image.data_ecr_image_oauth.image_tags[0]}"
       essential = true
       cpu       = 128
       memory    = 128
