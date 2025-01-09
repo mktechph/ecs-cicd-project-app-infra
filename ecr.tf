@@ -15,3 +15,23 @@ resource "aws_ecr_repository" "ecr_repo_oauth" {
     scan_on_push = false
   }
 }
+
+data "aws_ecr_repository" "data_ecr_repo_fe" {
+  name = aws_ecr_repository.ecr_repo_fe.name
+}
+
+
+data "aws_ecr_image" "data_ecr_image_fe" {
+  repository_name = data.aws_ecr_repository.data_ecr_repo_fe.name
+  most_recent     = true
+}
+
+data "aws_ecr_repository" "data_ecr_repo_oauth" {
+  name = aws_ecr_repository.ecr_repo_oauth.name
+}
+
+
+data "aws_ecr_image" "data_ecr_image_oauth" {
+  repository_name = data.aws_ecr_repository.data_ecr_repo_oauth.name
+  most_recent     = true
+}
