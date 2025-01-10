@@ -58,19 +58,7 @@ resource "aws_lb_listener" "nlb-listener-fe-oauth" {
 
 }
 
-resource "aws_lb_target_group_attachment" "app-nlb-subnet1-target-group-attachment" {
-  #for_each         = toset(local.app_nlb_eni_ips)
-  target_group_arn = aws_lb_target_group.app-nlb-target-group.arn
-  target_id        = "10.100.30.1"
-  port             = 80
-}
 
-resource "aws_lb_target_group_attachment" "app-nlb-subnet2-target-group-attachment" {
-  #for_each         = toset(local.app_nlb_eni_ips)
-  target_group_arn = aws_lb_target_group.app-nlb-target-group.arn
-  target_id        = "10.100.40.1"
-  port             = 80
-}
 
 
 
