@@ -7,7 +7,27 @@ resource "aws_security_group" "sg_alb" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] ## Change to NLB SG
+    cidr_blocks = [aws_security_group.sg_nlb]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "sg_nlb" {
+  name        = "sg_nlb"
+  description = "Security Group for NLB"
+  vpc_id      = module.module_app_vpc.output_vpc_id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = [aws_security_group.sg_network_alb.id]
   }
 
   egress {
@@ -89,4 +109,27 @@ resource "aws_security_group" "sg_service" {
   name        = "allow_alb"
   description = "Allow ALB traffic."
   vpc_id      = module.module_app_vpc.output_vpc_id
+}
+
+
+## NETWORK ##
+
+resource "aws_security_group" "sg_network_alb" {
+  name        = "sg_network_alb"
+  description = "Security Group for Public  ALB"
+  vpc_id      = module.module_network_vpc.output_vpc_id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
