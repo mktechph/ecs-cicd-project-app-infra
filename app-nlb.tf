@@ -47,8 +47,8 @@ resource "aws_lb_listener" "nlb-listener-fe-oauth" {
 
 }
 
-#resource "aws_lb_target_group_attachment" "app-nlb-target-group-attachment" {
-#  target_group_arn = aws_lb_target_group.app-nlb-target-group.arn
-#  target_id        = aws_lb.app-alb.arn
-#  port             = 80
-#}
+resource "aws_lb_target_group_attachment" "app-nlb-target-group-attachment" {
+  target_group_arn = aws_lb_target_group.app-nlb-target-group.arn
+  target_id        = aws_lb.app-alb.arn
+  port             = 80
+}
