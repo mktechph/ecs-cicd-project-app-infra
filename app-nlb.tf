@@ -48,7 +48,21 @@ resource "aws_lb_listener" "nlb-listener-fe-oauth" {
 }
 
 resource "aws_lb_target_group_attachment" "app-nlb-target-group-attachment" {
+  for_each         = toset(local.app_nlb_eni_ips)
   target_group_arn = aws_lb_target_group.app-nlb-target-group.arn
-  target_id        = aws_lb.app-alb.arn
+  target_id        = each.value
   port             = 80
+}
+
+
+locals {
+  app_nlb_eni_ips = [for eni in data.aws_network_interfaces.app-app_nlb_enis : eni.private_ip]
+}
+
+data "aws_network_interfaces" "app_nlb_enis" {
+  for_each = toset([aws_lb.app-nlb.arn_suffix])
+  filter {
+    name   = "interface_type"
+    values = ["network_load_balancer"]
+  }
 }

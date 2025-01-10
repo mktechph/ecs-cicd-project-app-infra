@@ -13,3 +13,60 @@ resource "aws_lb" "network-alb" {
     Environment = "${local.Environment}"
   }
 }
+
+
+resource "aws_lb_listener" "network-alb-listener" {
+  load_balancer_arn = aws_lb.network-alb.arn
+  port              = "80"
+  protocol          = "HTTP"
+  #ssl_policy        = "ELBSecurityPolicy-2016-08"
+  #certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.app-alb-fe-target-group.arn
+  }
+}
+
+
+resource "aws_alb_target_group" "network-alb-target-group" {
+  name        = "ecs-cicd-network-target-group"
+  target_type = "ip"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = module.module_network_vpc.output_vpc_id
+
+  health_check {
+    healthy_threshold   = "5"
+    unhealthy_threshold = "2"
+    interval            = "30"
+    path                = "/"
+    timeout             = 5
+    matcher             = 200
+    protocol            = "HTTP"
+  }
+}
+
+
+resource "aws_lb_listener_rule" "network-alb-listener-rule" {
+  listener_arn = aws_lb_listener.network-alb-listener.arn
+  priority     = 1
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.network-alb-target-group.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/"]
+    }
+  }
+}
+
+
+resource "aws_lb_target_group_attachment" "app-nlb-target-group-attachment" {
+  target_group_arn = aws_lb_target_group.app-nlb-target-group.arn
+  target_id        = aws_lb.app-alb.arn
+  port             = 80
+}
