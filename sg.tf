@@ -27,7 +27,7 @@ resource "aws_security_group" "sg_nlb" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    security_groups = [aws_security_group.sg_network_alb.id]
+    security_groups = ["0.0.0.0/0"]
   }
 
   egress {
