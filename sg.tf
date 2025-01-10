@@ -7,7 +7,7 @@ resource "aws_security_group" "sg_alb" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = [aws_security_group.sg_nlb]
+    cidr_blocks = [aws_security_group.sg_nlb.id]
   }
 
   egress {
