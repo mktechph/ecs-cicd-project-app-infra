@@ -18,7 +18,7 @@ resource "aws_lb_target_group" "app-nlb-target-group" {
   name        = "ecs-cicd-nlb-target-group"
   target_type = "alb"
   port        = 80
-  protocol    = "HTTP"
+  protocol    = "TCP"
   vpc_id      = module.module_app_vpc.output_vpc_id
 
   health_check {
