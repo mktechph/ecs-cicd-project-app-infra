@@ -36,7 +36,7 @@ resource "aws_lb_target_group" "app-nlb-target-group" {
 resource "aws_lb_listener" "nlb-listener-fe-oauth" {
   load_balancer_arn = aws_lb.app-nlb.arn
   port              = "80"
-  protocol          = "HTTP"
+  protocol          = "TCP"
   #ssl_policy        = "ELBSecurityPolicy-2016-08"
   #certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
 
