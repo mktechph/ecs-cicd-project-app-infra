@@ -8,12 +8,12 @@ resource "aws_lb" "app-nlb" {
   enable_deletion_protection = false
 
   subnet_mapping {
-    subnet_id            = module.module_app_subnet_nlb1.outputs_subnet_id.outputs_subnet_id
+    subnet_id            = module.module_app_subnet_nlb1.outputs_subnet_id
     private_ipv4_address = "10.100.30.1"
   }
 
   subnet_mapping {
-    subnet_id            = module.module_app_subnet_nlb2.outputs_subnet_id.outputs_subnet_id
+    subnet_id            = module.module_app_subnet_nlb2.outputs_subnet_id
     private_ipv4_address = "10.100.40.1"
   }
 
