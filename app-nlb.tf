@@ -3,7 +3,7 @@ resource "aws_lb" "app-nlb" {
   internal           = true
   load_balancer_type = "network"
   #subnets            = [module.module_app_subnet_nlb1.outputs_subnet_id, module.module_app_subnet_nlb2.outputs_subnet_id]
-  security_groups    = [aws_security_group.sg_allow_all.id]
+  security_groups = [aws_security_group.sg_allow_all.id]
 
   enable_deletion_protection = false
 
