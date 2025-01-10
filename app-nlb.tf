@@ -32,8 +32,23 @@ resource "aws_lb_target_group" "app-nlb-target-group" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "app-nlb-target-group-attachment" {
-  target_group_arn = aws_lb_target_group.app-nlb-target-group.arn
-  target_id        = aws_lb.app-alb.arn
-  port             = 80
+
+resource "aws_lb_listener" "nlb-listener-fe-oauth" {
+  load_balancer_arn = aws_lb.app-nlb.arn
+  port              = "80"
+  protocol          = "HTTP"
+  #ssl_policy        = "ELBSecurityPolicy-2016-08"
+  #certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.app-nlb-target-group.arn
+  }
+
 }
+
+#resource "aws_lb_target_group_attachment" "app-nlb-target-group-attachment" {
+#  target_group_arn = aws_lb_target_group.app-nlb-target-group.arn
+#  target_id        = aws_lb.app-alb.arn
+#  port             = 80
+#}
