@@ -7,11 +7,22 @@ resource "aws_lb" "app-nlb" {
 
   enable_deletion_protection = false
 
+  subnet_mapping {
+    subnet_id            = module.module.module_app_subnet_nlb1.outputs_subnet_id.outputs_subnet_id
+    private_ipv4_address = "10.100.30.1"
+  }
+
+  subnet_mapping {
+    subnet_id            = module.module.module_app_subnet_nlb2.outputs_subnet_id.outputs_subnet_id
+    private_ipv4_address = "10.100.40.1"
+  }
+
   tags = {
     Name        = "${local.Projectname}-${local.Environment}-app-nlb"
     Environment = "${local.Environment}"
   }
 }
+
 
 
 resource "aws_lb_target_group" "app-nlb-target-group" {
@@ -47,22 +58,30 @@ resource "aws_lb_listener" "nlb-listener-fe-oauth" {
 
 }
 
-resource "aws_lb_target_group_attachment" "app-nlb-target-group-attachment" {
-  for_each         = toset(local.app_nlb_eni_ips)
+resource "aws_lb_target_group_attachment" "app-nlb-subnet1-target-group-attachment" {
+  #for_each         = toset(local.app_nlb_eni_ips)
   target_group_arn = aws_lb_target_group.app-nlb-target-group.arn
-  target_id        = each.value
+  target_id        = "10.100.30.1"
+  port             = 80
+}
+
+resource "aws_lb_target_group_attachment" "app-nlb-subnet2-target-group-attachment" {
+  #for_each         = toset(local.app_nlb_eni_ips)
+  target_group_arn = aws_lb_target_group.app-nlb-target-group.arn
+  target_id        = "10.100.40.1"
   port             = 80
 }
 
 
-locals {
-  app_nlb_eni_ips = [for eni in data.aws_network_interfaces.app_nlb_enis.network_interfaces : eni.private_ip]
-}
 
-data "aws_network_interfaces" "app_nlb_enis" {
-  #for_each = toset([aws_lb.app-nlb.arn_suffix])
-  filter {
-    name   = "description"
-    values = ["ELB net/ecs-app-nlb/*"]
-  }
-}
+#locals {
+#  app_nlb_eni_ips = [for eni in data.aws_network_interfaces.app_nlb_enis.network_interfaces : eni.private_ip]
+#}
+
+#data "aws_network_interfaces" "app_nlb_enis" {
+#  #for_each = toset([aws_lb.app-nlb.arn_suffix])
+#  filter {
+#    name   = "description"
+#    values = ["ELB net/ecs-app-nlb/*"]
+#  }
+#}
