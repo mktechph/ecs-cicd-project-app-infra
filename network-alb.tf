@@ -65,7 +65,7 @@ resource "aws_lb_listener_rule" "network-alb-listener-rule" {
 }
 
 
-resource "aws_lb_target_group_attachment" "app-nlb-target-group-attachment" {
+resource "aws_lb_target_group_attachment" "network-nlb-target-group-attachment" {
   target_group_arn = aws_lb_target_group.app-nlb-target-group.arn
   target_id        = aws_lb.app-alb.arn
   port             = 80
