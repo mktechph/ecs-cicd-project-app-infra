@@ -56,7 +56,7 @@ resource "aws_lb_target_group_attachment" "app-nlb-target-group-attachment" {
 
 
 locals {
-  app_nlb_eni_ips = [for eni in data.aws_network_interfaces.app_nlb_enis : eni.private_ip]
+  app_nlb_eni_ips = [for eni in data.aws_network_interfaces.app_nlb_enis.network_interfaces : eni.private_ip]
 }
 
 data "aws_network_interfaces" "app_nlb_enis" {
