@@ -60,9 +60,9 @@ locals {
 }
 
 data "aws_network_interfaces" "app_nlb_enis" {
-  for_each = toset([aws_lb.app-nlb.arn_suffix])
+  #for_each = toset([aws_lb.app-nlb.arn_suffix])
   filter {
-    name   = "interface_type"
-    values = ["network_load_balancer"]
+    name   = "description"
+    values = ["ELB net/ecs-app-nlb/*"]
   }
 }
