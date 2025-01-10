@@ -75,7 +75,7 @@ resource "aws_alb_target_group" "app-alb-fe-target-group" {
   vpc_id      = module.module_app_vpc.output_vpc_id
 
   health_check {
-    healthy_threshold   = "5"
+    healthy_threshold   = "2"
     unhealthy_threshold = "2"
     interval            = "30"
     path                = "/"
@@ -118,7 +118,7 @@ resource "aws_alb_target_group" "app-alb-oauth-target-group" {
   vpc_id      = module.module_app_vpc.output_vpc_id
 
   health_check {
-    healthy_threshold   = "5"
+    healthy_threshold   = "2"
     unhealthy_threshold = "2"
     interval            = "30"
     path                = "/oauth*"
