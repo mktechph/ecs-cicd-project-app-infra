@@ -69,13 +69,13 @@ resource "aws_lb_listener_rule" "network-alb-listener-rule" {
 resource "aws_lb_target_group_attachment" "network-alb-subnet1-target-group-attachment" {
   target_group_arn  = aws_alb_target_group.network-alb-target-group.arn
   availability_zone = "ap-southeast-1a"
-  target_id         = "10.100.30.1"
+  target_id         = "10.100.30.101"
   port              = 80
 }
 
 resource "aws_lb_target_group_attachment" "network-alb-subnet2-target-group-attachment" {
   target_group_arn  = aws_alb_target_group.network-alb-target-group.arn
   availability_zone = "ap-southeast-1b"
-  target_id         = "10.100.40.1"
+  target_id         = "10.100.40.102"
   port              = 80
 }

@@ -9,12 +9,12 @@ resource "aws_lb" "app-nlb" {
 
   subnet_mapping {
     subnet_id            = module.module_app_subnet_nlb1.outputs_subnet_id
-    private_ipv4_address = "10.100.30.1"
+    private_ipv4_address = "10.100.30.101"
   }
 
   subnet_mapping {
     subnet_id            = module.module_app_subnet_nlb2.outputs_subnet_id
-    private_ipv4_address = "10.100.40.1"
+    private_ipv4_address = "10.100.40.102"
   }
 
   tags = {
