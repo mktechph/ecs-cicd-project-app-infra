@@ -33,7 +33,7 @@ resource "aws_lb_target_group" "app-nlb-target-group" {
   vpc_id      = module.module_app_vpc.output_vpc_id
 
   health_check {
-    healthy_threshold   = "5"
+    healthy_threshold   = "2"
     unhealthy_threshold = "2"
     interval            = "30"
     path                = "/"
@@ -61,6 +61,7 @@ resource "aws_lb_listener" "nlb-listener-fe-oauth" {
 resource "aws_lb_target_group_attachment" "app-alb-target-group-attachment" {
   target_group_arn  = aws_lb_target_group.app-nlb-target-group.arn
   target_id         = aws_lb.app-alb.arn
+  port              = 80
 }
 
 
