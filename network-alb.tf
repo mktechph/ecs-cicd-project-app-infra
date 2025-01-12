@@ -37,7 +37,7 @@ resource "aws_alb_target_group" "network-alb-target-group" {
   vpc_id      = module.module_network_vpc.output_vpc_id
 
   health_check {
-    healthy_threshold   = "5"
+    healthy_threshold   = "2"
     unhealthy_threshold = "2"
     interval            = "30"
     path                = "/"
@@ -76,6 +76,6 @@ resource "aws_lb_target_group_attachment" "network-alb-subnet1-target-group-atta
 resource "aws_lb_target_group_attachment" "network-alb-subnet2-target-group-attachment" {
   target_group_arn  = aws_alb_target_group.network-alb-target-group.arn
   availability_zone = "ap-southeast-1b"
-  target_id         = "10.100.40.102"
+  target_id         = "10.100.40.101"
   port              = 80
 }

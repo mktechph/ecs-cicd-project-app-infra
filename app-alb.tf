@@ -14,8 +14,9 @@ resource "aws_lb" "app-alb" {
   }
 }
 
-resource "aws_autoscaling_group" "app-autoscaling-fe-oauth" {
-  name                      = "ecs-cicd-autoscaling-fe-oauth"
+## FE ASG ##
+resource "aws_autoscaling_group" "app-autoscaling-fe" {
+  name                      = "ecs-cicd-autoscaling-fe"
   max_size                  = 2
   min_size                  = 2
   health_check_grace_period = 300
@@ -25,7 +26,7 @@ resource "aws_autoscaling_group" "app-autoscaling-fe-oauth" {
   vpc_zone_identifier       = [module.module_app_subnet1.outputs_subnet_id, module.module_app_subnet2.outputs_subnet_id]
 
   launch_template {
-    id = aws_launch_template.ecs-cicd-launch-template.id
+    id = aws_launch_template.ecs-cicd-launch-template-fe-oauth.id
     #id      = "lt-0d10601275565fcb5"
     version = "$Latest"
   }
@@ -38,9 +39,36 @@ resource "aws_autoscaling_group" "app-autoscaling-fe-oauth" {
   timeouts {
     delete = "15m"
   }
-
-
 }
+
+
+## OAUTH ASG ##
+resource "aws_autoscaling_group" "app-autoscaling-oauth" {
+  name                      = "ecs-cicd-autoscaling-oauth"
+  max_size                  = 2
+  min_size                  = 2
+  health_check_grace_period = 300
+  health_check_type         = "ELB"
+  desired_capacity          = 2
+  force_delete              = true
+  vpc_zone_identifier       = [module.module_app_subnet1.outputs_subnet_id, module.module_app_subnet2.outputs_subnet_id]
+
+  launch_template {
+    id = aws_launch_template.ecs-cicd-launch-template-fe-oauth.id
+    #id      = "lt-0d10601275565fcb5"
+    version = "$Latest"
+  }
+
+  instance_maintenance_policy {
+    min_healthy_percentage = 90
+    max_healthy_percentage = 120
+  }
+
+  timeouts {
+    delete = "15m"
+  }
+}
+
 
 
 resource "aws_lb_listener" "alb-listener-fe-oauth" {
@@ -100,10 +128,16 @@ resource "aws_lb_listener_rule" "alb-listener-rule-fe" {
   }
 
   condition {
-    path_pattern {
-      values = ["/"]
+    host_header {
+      values = ["mktechph.cloud"]
     }
   }
+
+  #condition {
+  #  path_pattern {
+  #    values = ["/"]
+  #  }
+  #}
 }
 
 
@@ -143,8 +177,14 @@ resource "aws_lb_listener_rule" "alb-listener-rule-oauth" {
   }
 
   condition {
-    path_pattern {
-      values = ["/oauth*"]
+    host_header {
+      values = ["oauth.mktechph.cloud"]
     }
   }
+
+  #condition {
+  #  path_pattern {
+  #    values = ["/oauth*"]
+  #  }
+  #}
 }

@@ -14,7 +14,7 @@ resource "aws_lb" "app-nlb" {
 
   subnet_mapping {
     subnet_id            = module.module_app_subnet_nlb2.outputs_subnet_id
-    private_ipv4_address = "10.100.40.102"
+    private_ipv4_address = "10.100.40.101"
   }
 
   tags = {
@@ -59,9 +59,9 @@ resource "aws_lb_listener" "nlb-listener-fe-oauth" {
 }
 
 resource "aws_lb_target_group_attachment" "app-alb-target-group-attachment" {
-  target_group_arn  = aws_lb_target_group.app-nlb-target-group.arn
-  target_id         = aws_lb.app-alb.arn
-  port              = 80
+  target_group_arn = aws_lb_target_group.app-nlb-target-group.arn
+  target_id        = aws_lb.app-alb.arn
+  port             = 80
 }
 
 

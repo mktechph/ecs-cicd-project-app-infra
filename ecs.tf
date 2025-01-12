@@ -11,7 +11,7 @@ resource "aws_ecs_capacity_provider" "ecs-capacity-provider" {
   name = "capacity-provider-ecs-cicd"
 
   auto_scaling_group_provider {
-    auto_scaling_group_arn         = aws_autoscaling_group.app-autoscaling-fe-oauth.arn
+    auto_scaling_group_arn         = aws_autoscaling_group.app-autoscaling-fe.arn
     managed_termination_protection = "DISABLED"
 
     managed_scaling {

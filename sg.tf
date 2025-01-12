@@ -4,10 +4,11 @@ resource "aws_security_group" "sg_alb" {
   vpc_id      = module.module_app_vpc.output_vpc_id
 
   ingress {
-    from_port       = 80
-    to_port         = 80
-    protocol        = "tcp"
-    security_groups = [aws_security_group.sg_nlb.id]
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["10.100.30.101/32", "10.100.40.101/32"]
+    #security_groups = [aws_security_group.sg_nlb.id]
   }
 
   egress {
@@ -27,7 +28,7 @@ resource "aws_security_group" "sg_nlb" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.200.0.0/16"]
   }
 
   egress {
