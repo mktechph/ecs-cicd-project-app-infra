@@ -7,7 +7,7 @@ resource "aws_ecs_cluster" "ecs-cluster-fe-oauth" {
   }
 }
 
-resource "aws_ecs_capacity_provider" "ecs-capacity-provider" {
+resource "aws_ecs_capacity_provider" "ecs-capacity-provider-fe" {
   name = "capacity-provider-ecs-cicd"
 
   auto_scaling_group_provider {
@@ -23,15 +23,43 @@ resource "aws_ecs_capacity_provider" "ecs-capacity-provider" {
   }
 }
 
-resource "aws_ecs_cluster_capacity_providers" "ecs-cluster-capacity-provider" {
+resource "aws_ecs_cluster_capacity_providers" "ecs-cluster-capacity-provider-fe" {
   cluster_name = aws_ecs_cluster.ecs-cluster-fe-oauth.name
 
-  capacity_providers = [aws_ecs_capacity_provider.ecs-capacity-provider.name]
+  capacity_providers = [aws_ecs_capacity_provider.ecs-capacity-provider-fe.name]
 
   default_capacity_provider_strategy {
     base              = 1
     weight            = 1
-    capacity_provider = aws_ecs_capacity_provider.ecs-capacity-provider.name
+    capacity_provider = aws_ecs_capacity_provider.ecs-capacity-provider-fe.name
+  }
+}
+
+resource "aws_ecs_capacity_provider" "ecs-capacity-provider-oauth" {
+  name = "capacity-provider-ecs-cicd"
+
+  auto_scaling_group_provider {
+    auto_scaling_group_arn         = aws_autoscaling_group.app-autoscaling-oauth.arn
+    managed_termination_protection = "DISABLED"
+
+    managed_scaling {
+      maximum_scaling_step_size = 5
+      minimum_scaling_step_size = 1
+      status                    = "ENABLED"
+      target_capacity           = 100
+    }
+  }
+}
+
+resource "aws_ecs_cluster_capacity_providers" "ecs-cluster-capacity-provider-oauth" {
+  cluster_name = aws_ecs_cluster.ecs-cluster-fe-oauth.name
+
+  capacity_providers = [aws_ecs_capacity_provider.ecs-capacity-provider-oauth.name]
+
+  default_capacity_provider_strategy {
+    base              = 1
+    weight            = 1
+    capacity_provider = aws_ecs_capacity_provider.ecs-capacity-provider-oauth.name
   }
 }
 
