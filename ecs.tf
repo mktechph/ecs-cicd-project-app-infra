@@ -8,7 +8,7 @@ resource "aws_ecs_cluster" "ecs-cluster-fe-oauth" {
 }
 
 resource "aws_ecs_capacity_provider" "ecs-capacity-provider-fe" {
-  name = "capacity-provider-ecs-cicd"
+  name = "capacity-provider-ecs-cicd-fe"
 
   auto_scaling_group_provider {
     auto_scaling_group_arn         = aws_autoscaling_group.app-autoscaling-fe.arn
@@ -36,7 +36,7 @@ resource "aws_ecs_cluster_capacity_providers" "ecs-cluster-capacity-provider-fe"
 }
 
 resource "aws_ecs_capacity_provider" "ecs-capacity-provider-oauth" {
-  name = "capacity-provider-ecs-cicd"
+  name = "capacity-provider-ecs-cicd-oauth"
 
   auto_scaling_group_provider {
     auto_scaling_group_arn         = aws_autoscaling_group.app-autoscaling-oauth.arn
