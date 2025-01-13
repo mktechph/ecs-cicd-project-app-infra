@@ -15,7 +15,7 @@ resource "aws_lb" "network-alb" {
 }
 
 
-resource "aws_lb_listener" "network-alb-listener" {
+resource "aws_lb_listener" "network-alb-listener-http" {
   load_balancer_arn = aws_lb.network-alb.arn
   port              = "80"
   protocol          = "HTTP"
@@ -28,9 +28,106 @@ resource "aws_lb_listener" "network-alb-listener" {
   }
 }
 
+resource "aws_lb_listener" "network-alb-listener-https" {
+  load_balancer_arn = aws_lb.network-alb.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+  certificate_arn   = "arn:aws:acm:ap-southeast-1:015594108990:certificate/f93fcaa8-58fb-492e-9147-12e999ab750c"
 
-resource "aws_alb_target_group" "network-alb-target-group" {
-  name        = "ecs-cicd-network-target-group"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.network-alb-target-group-api.arn
+  }
+}
+
+resource "aws_lb_listener_rule" "network-alb-listener-rule-fe" {
+  listener_arn = aws_lb_listener.network-alb-listener-https.arn
+  priority     = 1
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.network-alb-target-group-fe.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["fe.mktechph.cloud"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "network-alb-listener-rule-oauth" {
+  listener_arn = aws_lb_listener.network-alb-listener-https.arn
+  priority     = 1
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.network-alb-target-group-oauth.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["oauth.mktechph.cloud"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "network-alb-listener-rule-api" {
+  listener_arn = aws_lb_listener.network-alb-listener-https.arn
+  priority     = 1
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.network-alb-target-group-api.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["api.mktechph.cloud"]
+    }
+  }
+}
+
+
+resource "aws_alb_target_group" "network-alb-target-group-fe" {
+  name        = "ecs-cicd-network-target-group-fe"
+  target_type = "ip"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = module.module_network_vpc.output_vpc_id
+
+  health_check {
+    healthy_threshold   = "2"
+    unhealthy_threshold = "2"
+    interval            = "30"
+    path                = "/"
+    timeout             = 5
+    matcher             = 200
+    protocol            = "HTTP"
+  }
+}
+
+resource "aws_alb_target_group" "network-alb-target-group-oauth" {
+  name        = "ecs-cicd-network-target-group-oauth"
+  target_type = "ip"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = module.module_network_vpc.output_vpc_id
+
+  health_check {
+    healthy_threshold   = "2"
+    unhealthy_threshold = "2"
+    interval            = "30"
+    path                = "/"
+    timeout             = 5
+    matcher             = 200
+    protocol            = "HTTP"
+  }
+}
+
+resource "aws_alb_target_group" "network-alb-target-group-api" {
+  name        = "ecs-cicd-network-target-group-api"
   target_type = "ip"
   port        = 80
   protocol    = "HTTP"
@@ -48,33 +145,51 @@ resource "aws_alb_target_group" "network-alb-target-group" {
 }
 
 
-resource "aws_lb_listener_rule" "network-alb-listener-rule" {
-  listener_arn = aws_lb_listener.network-alb-listener.arn
-  priority     = 1
 
-  action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.network-alb-target-group.arn
-  }
-
-  condition {
-    path_pattern {
-      values = ["/"]
-    }
-  }
+resource "aws_lb_listener_certificate" "network-alb-listener-cer-https" {
+  listener_arn    = aws_lb_listener.network-alb-listener-https.arn
+  certificate_arn = "arn:aws:acm:ap-southeast-1:015594108990:certificate/3e017404-67e6-409c-a023-a189e316da05"
 }
 
 
 
-resource "aws_lb_target_group_attachment" "network-alb-subnet1-target-group-attachment" {
-  target_group_arn  = aws_alb_target_group.network-alb-target-group.arn
+resource "aws_lb_target_group_attachment" "network-alb-subnet1-target-group-attachment-fe" {
+  target_group_arn  = aws_alb_target_group.network-alb-target-group-fe.arn
   availability_zone = "ap-southeast-1a"
   target_id         = "10.100.30.101"
   port              = 80
 }
 
-resource "aws_lb_target_group_attachment" "network-alb-subnet2-target-group-attachment" {
-  target_group_arn  = aws_alb_target_group.network-alb-target-group.arn
+resource "aws_lb_target_group_attachment" "network-alb-subnet2-target-group-attachment-fe" {
+  target_group_arn  = aws_alb_target_group.network-alb-target-group-fe.arn
+  availability_zone = "ap-southeast-1b"
+  target_id         = "10.100.40.101"
+  port              = 80
+}
+
+resource "aws_lb_target_group_attachment" "network-alb-subnet1-target-group-attachment-oauth" {
+  target_group_arn  = aws_alb_target_group.network-alb-target-group-oauth.arn
+  availability_zone = "ap-southeast-1a"
+  target_id         = "10.100.30.101"
+  port              = 80
+}
+
+resource "aws_lb_target_group_attachment" "network-alb-subnet2-target-group-attachment-oauth" {
+  target_group_arn  = aws_alb_target_group.network-alb-target-group-fe.arn
+  availability_zone = "ap-southeast-1b"
+  target_id         = "10.100.40.101"
+  port              = 80
+}
+
+resource "aws_lb_target_group_attachment" "network-alb-subnet1-target-group-attachment-api" {
+  target_group_arn  = aws_alb_target_group.network-alb-target-group-api.arn
+  availability_zone = "ap-southeast-1a"
+  target_id         = "10.100.30.101"
+  port              = 80
+}
+
+resource "aws_lb_target_group_attachment" "network-alb-subnet2-target-group-attachment-api" {
+  target_group_arn  = aws_alb_target_group.network-alb-target-group-api.arn
   availability_zone = "ap-southeast-1b"
   target_id         = "10.100.40.101"
   port              = 80
