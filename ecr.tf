@@ -16,6 +16,15 @@ resource "aws_ecr_repository" "ecr_repo_oauth" {
   }
 }
 
+resource "aws_ecr_repository" "ecr_repo_api" {
+  name                 = "ecr_repo_api"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = false
+  }
+}
+
 #data "aws_ecr_repository" "data_ecr_repo_fe" {
 #  name = aws_ecr_repository.ecr_repo_fe.name
 #}

@@ -24,7 +24,7 @@ resource "aws_lb_listener" "network-alb-listener-http" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_alb_target_group.network-alb-target-group.arn
+    target_group_arn = aws_alb_target_group.network-alb-target-group-api.arn
   }
 }
 
@@ -91,7 +91,7 @@ resource "aws_lb_listener_rule" "network-alb-listener-rule-api" {
 
 
 resource "aws_alb_target_group" "network-alb-target-group-fe" {
-  name        = "ecs-cicd-network-target-group-fe"
+  name        = "ecs-target-group-network-fe"
   target_type = "ip"
   port        = 80
   protocol    = "HTTP"
@@ -109,7 +109,7 @@ resource "aws_alb_target_group" "network-alb-target-group-fe" {
 }
 
 resource "aws_alb_target_group" "network-alb-target-group-oauth" {
-  name        = "ecs-cicd-network-target-group-oauth"
+  name        = "ecs-target-group-network-oauth"
   target_type = "ip"
   port        = 80
   protocol    = "HTTP"
@@ -127,7 +127,7 @@ resource "aws_alb_target_group" "network-alb-target-group-oauth" {
 }
 
 resource "aws_alb_target_group" "network-alb-target-group-api" {
-  name        = "ecs-cicd-network-target-group-api"
+  name        = "ecs-target-group-network-api"
   target_type = "ip"
   port        = 80
   protocol    = "HTTP"
