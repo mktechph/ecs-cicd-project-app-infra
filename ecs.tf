@@ -284,7 +284,7 @@ resource "aws_ecs_service" "ecs-service-api" {
 
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.network-alb-target-group-api.arn
+    target_group_arn = aws_alb_target_group.app-alb-api-target-group.arn
     container_name   = "api-container"
     container_port   = 80
   }
