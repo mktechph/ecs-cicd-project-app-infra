@@ -99,6 +99,7 @@ resource "aws_autoscaling_group" "app-autoscaling-api" {
 
 
 resource "aws_lb_listener" "alb-listener-fe-oauth" {
+  depends_on        = [aws_lb.app-alb]
   load_balancer_arn = aws_lb.app-alb.arn
   port              = "80"
   protocol          = "HTTP"
@@ -146,6 +147,7 @@ resource "aws_alb_target_group" "app-alb-fe-target-group" {
 
 
 resource "aws_lb_listener_rule" "alb-listener-rule-fe" {
+  depends_on   = [aws_lb_listener.alb-listener-fe-oauth]
   listener_arn = aws_lb_listener.alb-listener-fe-oauth.arn
   priority     = 1
 
@@ -195,6 +197,7 @@ resource "aws_alb_target_group" "app-alb-oauth-target-group" {
 
 
 resource "aws_lb_listener_rule" "alb-listener-rule-oauth" {
+  depends_on   = [aws_lb_listener.alb-listener-fe-oauth]
   listener_arn = aws_lb_listener.alb-listener-fe-oauth.arn
   priority     = 2
 
@@ -244,6 +247,7 @@ resource "aws_alb_target_group" "app-alb-api-target-group" {
 }
 
 resource "aws_lb_listener" "alb-listener-api" {
+  depends_on        = [aws_lb.app-alb]
   load_balancer_arn = aws_lb.app-alb.arn
   port              = "80"
   protocol          = "HTTP"
@@ -266,6 +270,7 @@ resource "aws_lb_listener" "alb-listener-api" {
 }
 
 resource "aws_lb_listener_rule" "alb-listener-rule-api" {
+  depends_on   = [aws_lb_listener.alb-listener-api]
   listener_arn = aws_lb_listener.alb-listener-api.arn
   priority     = 2
 

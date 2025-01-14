@@ -16,6 +16,7 @@ resource "aws_lb" "network-alb" {
 
 
 resource "aws_lb_listener" "network-alb-listener-http" {
+  depends_on        = [aws_lb.network-alb]
   load_balancer_arn = aws_lb.network-alb.arn
   port              = "80"
   protocol          = "HTTP"
@@ -29,6 +30,7 @@ resource "aws_lb_listener" "network-alb-listener-http" {
 }
 
 resource "aws_lb_listener" "network-alb-listener-https" {
+  depends_on        = [aws_lb.network-alb]
   load_balancer_arn = aws_lb.network-alb.arn
   port              = "443"
   protocol          = "HTTPS"
@@ -42,6 +44,7 @@ resource "aws_lb_listener" "network-alb-listener-https" {
 }
 
 resource "aws_lb_listener_rule" "network-alb-listener-rule-fe" {
+  depends_on   = [aws_lb_listener.network-alb-listener-https]
   listener_arn = aws_lb_listener.network-alb-listener-https.arn
   priority     = 2
 
@@ -58,6 +61,7 @@ resource "aws_lb_listener_rule" "network-alb-listener-rule-fe" {
 }
 
 resource "aws_lb_listener_rule" "network-alb-listener-rule-oauth" {
+  depends_on   = [aws_lb_listener.network-alb-listener-https]
   listener_arn = aws_lb_listener.network-alb-listener-https.arn
   priority     = 3
 
@@ -74,6 +78,7 @@ resource "aws_lb_listener_rule" "network-alb-listener-rule-oauth" {
 }
 
 resource "aws_lb_listener_rule" "network-alb-listener-rule-api" {
+  depends_on   = [aws_lb_listener.network-alb-listener-https]
   listener_arn = aws_lb_listener.network-alb-listener-https.arn
   priority     = 1
 

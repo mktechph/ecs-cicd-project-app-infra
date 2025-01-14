@@ -21,13 +21,13 @@ echo ECS_CLUSTER=${aws_ecs_cluster.ecs-cluster-fe-oauth.name} >> /etc/ecs/ecs.co
   EOF
   )
 
-  block_device_mappings {
-    device_name = "/dev/sdf"
-
-    ebs {
-      volume_size = 20
-    }
-  }
+  #block_device_mappings {
+  #  device_name = "/dev/sdf"
+  #
+  #  ebs {
+  #    volume_size = 20
+  #  }
+  #}
 
   capacity_reservation_specification {
     capacity_reservation_preference = "open"
