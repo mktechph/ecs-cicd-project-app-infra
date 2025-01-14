@@ -51,7 +51,7 @@ resource "aws_lb_listener_rule" "network-alb-listener-rule-fe" {
   }
 
   condition {
-    path_pattern {
+    host_header {
       values = ["fe.mktechph.cloud"]
     }
   }
@@ -67,7 +67,7 @@ resource "aws_lb_listener_rule" "network-alb-listener-rule-oauth" {
   }
 
   condition {
-    path_pattern {
+    host_header {
       values = ["oauth.mktechph.cloud"]
     }
   }
@@ -83,7 +83,7 @@ resource "aws_lb_listener_rule" "network-alb-listener-rule-api" {
   }
 
   condition {
-    path_pattern {
+    host_header {
       values = ["api.mktechph.cloud"]
     }
   }
@@ -146,9 +146,19 @@ resource "aws_alb_target_group" "network-alb-target-group-api" {
 
 
 
-resource "aws_lb_listener_certificate" "network-alb-listener-cer-https" {
+resource "aws_lb_listener_certificate" "network-alb-listener-cert-fe" {
   listener_arn    = aws_lb_listener.network-alb-listener-https.arn
   certificate_arn = "arn:aws:acm:ap-southeast-1:015594108990:certificate/3e017404-67e6-409c-a023-a189e316da05"
+}
+
+resource "aws_lb_listener_certificate" "network-alb-listener-cert-oauth" {
+  listener_arn    = aws_lb_listener.network-alb-listener-https.arn
+  certificate_arn = "arn:aws:acm:ap-southeast-1:015594108990:certificate/2e00f8ff-6b84-45ef-930a-a2d6a3667a2b"
+}
+
+resource "aws_lb_listener_certificate" "network-alb-listener-cert-api" {
+  listener_arn    = aws_lb_listener.network-alb-listener-https.arn
+  certificate_arn = "arn:aws:acm:ap-southeast-1:015594108990:certificate/469df146-5d9a-43cc-962e-0fad057f79f6"
 }
 
 
@@ -175,7 +185,7 @@ resource "aws_lb_target_group_attachment" "network-alb-subnet1-target-group-atta
 }
 
 resource "aws_lb_target_group_attachment" "network-alb-subnet2-target-group-attachment-oauth" {
-  target_group_arn  = aws_alb_target_group.network-alb-target-group-fe.arn
+  target_group_arn  = aws_alb_target_group.network-alb-target-group-oauth.arn
   availability_zone = "ap-southeast-1b"
   target_id         = "10.100.40.101"
   port              = 80
