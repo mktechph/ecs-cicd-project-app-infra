@@ -43,7 +43,7 @@ resource "aws_lb_listener" "network-alb-listener-https" {
 
 resource "aws_lb_listener_rule" "network-alb-listener-rule-fe" {
   listener_arn = aws_lb_listener.network-alb-listener-https.arn
-  priority     = 1
+  priority     = 2
 
   action {
     type             = "forward"
@@ -59,7 +59,7 @@ resource "aws_lb_listener_rule" "network-alb-listener-rule-fe" {
 
 resource "aws_lb_listener_rule" "network-alb-listener-rule-oauth" {
   listener_arn = aws_lb_listener.network-alb-listener-https.arn
-  priority     = 1
+  priority     = 3
 
   action {
     type             = "forward"
