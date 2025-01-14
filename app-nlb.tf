@@ -45,6 +45,7 @@ resource "aws_lb_target_group" "app-nlb-target-group" {
 
 
 resource "aws_lb_listener" "nlb-listener-fe-oauth" {
+  depends_on        = [aws_lb.app-nlb]
   load_balancer_arn = aws_lb.app-nlb.arn
   port              = "80"
   protocol          = "TCP"

@@ -149,7 +149,7 @@ resource "aws_alb_target_group" "app-alb-fe-target-group" {
 resource "aws_lb_listener_rule" "alb-listener-rule-fe" {
   depends_on   = [aws_lb_listener.alb-listener-fe-oauth]
   listener_arn = aws_lb_listener.alb-listener-fe-oauth.arn
-  priority     = 1
+  priority     = 2
 
   action {
     type             = "forward"
@@ -199,7 +199,7 @@ resource "aws_alb_target_group" "app-alb-oauth-target-group" {
 resource "aws_lb_listener_rule" "alb-listener-rule-oauth" {
   depends_on   = [aws_lb_listener.alb-listener-fe-oauth]
   listener_arn = aws_lb_listener.alb-listener-fe-oauth.arn
-  priority     = 2
+  priority     = 3
 
   action {
     type             = "forward"
@@ -250,7 +250,7 @@ resource "aws_alb_target_group" "app-alb-api-target-group" {
 resource "aws_lb_listener_rule" "alb-listener-rule-api" {
   depends_on   = [aws_lb_listener.alb-listener-fe-oauth]
   listener_arn = aws_lb_listener.alb-listener-fe-oauth.arn
-  priority     = 2
+  priority     = 1
 
   action {
     type             = "forward"
